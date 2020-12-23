@@ -11,6 +11,7 @@ public class RotateControl : MonoBehaviour
     public float angleSpeed;
     public float radius;
     public float angle;
+    public static RotateControl rotateControl;
     [Tooltip("")]
     public GameObject Earth;
     [Tooltip("handle中心")]
@@ -34,6 +35,16 @@ public class RotateControl : MonoBehaviour
 
     bool _beginTouch = false;//Update之外
     // Start is called before the first frame update
+    private void Awake()
+    {
+
+        if (rotateControl != null)
+        {
+            Destroy(rotateControl);
+        }
+        rotateControl = this;
+
+    }
     void Start()
     {
         lastPos = new Vector2(0,0);

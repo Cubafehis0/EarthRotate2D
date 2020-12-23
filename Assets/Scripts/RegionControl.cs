@@ -19,6 +19,8 @@ public class RegionControl : MonoBehaviour
     public float polMinTemp;
     public float polMaxTemp;
     public Region region;
+    public float decreasePolF;
+    public int decreasePol;
     public float polF;
     public int pol;
     SpriteRenderer sprite;
@@ -68,24 +70,23 @@ public class RegionControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isUnderSunshine(transform.rotation.eulerAngles.z))
+        if(region==Region.City && isReachDestoryTemp())
+        {
+            region = Region.Desert;
+            Transform transform1=transform.GetChild(0);
+            Destroy(transform1.gameObject);
+            pol = 0;
+            polF = 0;
+            decreasePol = 0;
+            decreasePolF = 0;
+        }
+        if (isUnderSunshine())
         {
             temperature += temperatureUpRatio * Time.fixedDeltaTime;
-            if(region==Region.City && temperature>polMinTemp && temperature<polMaxTemp)
-            {
-                polF += earth.polInc * Time.deltaTime;
-            }
-            
         }
         else
         {
             temperature -= temperatureUpRatio * Time.fixedDeltaTime;
-        }
-        pol = (int)polF;
-        if(pol>earth.maxPol)
-        {
-            pol = earth.maxPol;
-            polF = pol;
         }
         // 计算异常时间累计值
         if (temperature > abnormalTemperature)
@@ -117,16 +118,30 @@ public class RegionControl : MonoBehaviour
 
     }
 
-    private bool isUnderSunshine(float eulerAngle)
+    public bool isUnderSunshine()
     {
-        if (eulerAngle >= 45f && eulerAngle < 225f)
+        if (transform.rotation.eulerAngles.z >= 45f && transform.rotation.eulerAngles.z < 225f)
         {
             return true;
         }
         return false;
     }
-
-
+    public bool isOverNormalTemp()
+    {
+        if(temperature>10 || temperature<-10)
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool isReachDestoryTemp()
+    {
+        if(temperature>15 || temperature<-15)
+        {
+            return true;
+        }
+        return false;
+    }
     private void changeRegionToDesert()
     {
         region = Region.Desert;

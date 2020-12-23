@@ -60,3 +60,7 @@ crashlytics-build.properties
 
 ProjectSettings/ProjectSettings.asset
 ProjectSettings/PackageManagerSettings.asset
+Packages/packages-lock.json
+ProjectSettings/PackageManagerSettings.asset
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersion.txt

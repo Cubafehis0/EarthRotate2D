@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Region
+public enum Era
 {
-    Forest,
-    FlatGround,
-    Sea,
-    Desert,
+    AgricultureEra,
+    IndutrialEra,
+    InformationEra,
+    AtomicEra,
     City
 }

@@ -97,4 +97,8 @@ MonoBehaviour:
   temperatureUpRatio: 0.5
   initTemperature: 0
   temperature: 0
+  polMinTemp: -15
+  polMaxTemp: 15
   region: 0
+  polF: 0
+  pol: 0

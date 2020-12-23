@@ -33,6 +33,8 @@ public class RotateControl : MonoBehaviour
     public float damp;
     Touch touch;
 
+    bool isTouching;
+
     bool _beginTouch = false;//Update之外
     // Start is called before the first frame update
     private void Awake()
@@ -55,8 +57,12 @@ public class RotateControl : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        float targetSpeed = angleSpeed / scale;
-        earthAc = (targetSpeed - earthS) / 40;
+        if (isTouching)
+        {
+            float targetSpeed = angleSpeed / scale;
+            earthAc = (targetSpeed - earthS) / 40;
+        }
+        
         //float force = angleSpeed - earthS;
 
         //阻力和速度成正比
@@ -161,6 +167,7 @@ public class RotateControl : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
+            isTouching = true;
             touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
             {
@@ -192,6 +199,10 @@ public class RotateControl : MonoBehaviour
                 lastPos = nowPos;
                 angleSpeed = 0;
             }
+        }
+        else
+        {
+            isTouching = false;
         }
     }
 }

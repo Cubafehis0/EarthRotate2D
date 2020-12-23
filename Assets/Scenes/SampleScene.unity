@@ -933,7 +933,7 @@ MonoBehaviour:
   nowPos: {x: 0, y: 0}
   centerTrans: {fileID: 1140520260}
   angleSpeed: 0
-  radius: 200
+  radius: 100
   angle: 0
   Earth: {fileID: 2082987561}
   earthAc: 0

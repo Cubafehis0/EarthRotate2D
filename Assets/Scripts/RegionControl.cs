@@ -189,11 +189,22 @@ public class RegionControl : MonoBehaviour
                     targetInd = ind + 1;
                 }
             }
-            // 不是海洋变SeaGround
-            if (regionControls[targetInd].region != Region.Sea)
+            // 变SeaGround
+            if (regionControls[targetInd].region == Region.Desert || 
+                regionControls[targetInd].region == Region.FlatGround ||
+                regionControls[targetInd].region == Region.Forest ||
+                regionControls[targetInd].region == Region.SeaGround)
             {
                 regionControls[targetInd].changeRegionTo(Region.SeaGround);
                 regionControls[targetInd].nowEbbTime = ebbTime;
+            }
+            else if (regionControls[targetInd].region == Region.City ||
+                regionControls[targetInd].region == Region.SeaCity)
+            {
+                regionControls[targetInd].changeRegionTo(Region.SeaCity);
+                regionControls[targetInd].nowEbbTime = ebbTime;
+                // 人口减少
+                pol -= (int)(pol * 0.3f);
             }
         }
     }
@@ -206,6 +217,14 @@ public class RegionControl : MonoBehaviour
             if (nowEbbTime <= 0f)
             {
                 changeRegionTo(Region.FlatGround);
+            }
+        }
+        else if (region == Region.SeaCity)
+        {
+            nowEbbTime -= Time.fixedDeltaTime;
+            if (nowEbbTime <= 0f)
+            {
+                changeRegionTo(Region.City);
             }
         }
     }

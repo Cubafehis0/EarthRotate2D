@@ -94,7 +94,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b05f3a40293a3f4ab14795235430697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureUpRatio: 0.5
+  abnormalTemperature: 15
+  changeTime: 3
+  temperatureUpRatio: 1
   initTemperature: 0
   temperature: 0
   region: 0

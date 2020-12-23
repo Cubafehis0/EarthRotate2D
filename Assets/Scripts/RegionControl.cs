@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class RegionControl : MonoBehaviour
 {
+    [Tooltip("异常温度值")]
+    public float abnormalTemperature;
+    [Tooltip("异常温度值改变状态需要的累计时间")]
+    public float changeTime;
+    // 高温累计时间
+    float temperatureToohighTime;
+    // 低温累计时间
+    float temperatureToolowTime;
     public float temperatureUpRatio;
     public float initTemperature;
     public float temperature;
@@ -15,6 +23,7 @@ public class RegionControl : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         LoadImage();
         temperature = initTemperature;
+        temperatureToohighTime = 0f;
     }
 
     void LoadImage()
@@ -60,6 +69,34 @@ public class RegionControl : MonoBehaviour
         {
             temperature -= temperatureUpRatio * Time.fixedDeltaTime;
         }
+        // 计算异常时间累计值
+        if (temperature > abnormalTemperature)
+        {
+            temperatureToohighTime += Time.fixedDeltaTime;
+        }
+        else if (temperature < -abnormalTemperature)
+        {
+            temperatureToolowTime += Time.fixedDeltaTime;
+        }
+        else
+        {
+            temperatureToohighTime -= Time.fixedDeltaTime;
+            temperatureToohighTime = Mathf.Clamp(temperatureToohighTime, 0f, float.MaxValue);
+            temperatureToolowTime -= Time.fixedDeltaTime;
+            temperatureToolowTime = Mathf.Clamp(temperatureToolowTime, 0f, float.MaxValue);
+        }
+        // 温度过高一律变成沙漠
+        if (temperatureToohighTime >= changeTime)
+        {
+            changeRegionToDesert();
+            
+        }
+        // 温度过低，海洋不变沙漠
+        if (temperatureToolowTime >= changeTime && region != Region.Sea)
+        {
+            changeRegionToDesert();
+        }
+
     }
 
     private bool isUnderSunshine(float eulerAngle)
@@ -70,4 +107,12 @@ public class RegionControl : MonoBehaviour
         }
         return false;
     }
+
+
+    private void changeRegionToDesert()
+    {
+        region = Region.Desert;
+        LoadImage();
+    }
+    
 }

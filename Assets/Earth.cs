@@ -35,7 +35,7 @@ public class Earth : MonoBehaviour
     void Start()
     {
         cityRedenerer = new List<SpriteRenderer>();
-        rotateControl = RotateControl.rotateControl;
+        rotateControl = RotateControl.rotateControlInstance;
         regionControls = GetComponentsInChildren<RegionControl>();
         hasFirstCity = false;
     }

@@ -1933,5 +1933,10 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5708137997438753728, guid: e9d6ee2dcce08474ca54636ee64a739b,
+        type: 3}
+      propertyPath: abnormalAc
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9d6ee2dcce08474ca54636ee64a739b, type: 3}

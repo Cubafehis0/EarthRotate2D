@@ -8,5 +8,6 @@ public enum Region
     FlatGround,
     Sea,
     Desert,
-    City
+    City,
+    SeaGround
 }

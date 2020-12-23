@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class RegionControl : MonoBehaviour
 {
+    [Tooltip("退潮需要的时间")]
+    public float ebbTime;
+    private float nowEbbTime;
+    [Tooltip("异常加速度")]
+    public float abnormalAc;
     [Tooltip("异常温度值")]
     public float abnormalTemperature;
     [Tooltip("异常温度值改变状态需要的累计时间")]
     public float changeTime;
+    [Tooltip("最高温度")]
+    public float maxTemperature;
     // 高温累计时间
     float temperatureToohighTime;
     // 低温累计时间
     float temperatureToolowTime;
+    [Tooltip("温度改变速率")]
     public float temperatureUpRatio;
+    [Tooltip("初始温度")]
     public float initTemperature;
     public float temperature;
     //人口可以增长的两个临界值
@@ -23,6 +32,7 @@ public class RegionControl : MonoBehaviour
     public int pol;
     SpriteRenderer sprite;
     Earth earth;
+    RotateControl rotateControlInstance;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +41,8 @@ public class RegionControl : MonoBehaviour
         temperature = initTemperature;
         earth = Earth.earth;
         temperatureToohighTime = 0f;
+        rotateControlInstance = RotateControl.rotateControlInstance;
+        nowEbbTime = 0f;
     }
 
     void LoadImage()
@@ -57,6 +69,11 @@ public class RegionControl : MonoBehaviour
                     sprite.color = Color.blue;
                     break;
                 }
+            case Region.SeaGround:
+                {
+                    sprite.color = Color.cyan;
+                    break;
+                }
         }
 
     }
@@ -81,12 +98,16 @@ public class RegionControl : MonoBehaviour
         {
             temperature -= temperatureUpRatio * Time.fixedDeltaTime;
         }
+        temperature = Mathf.Clamp(temperature, -maxTemperature, maxTemperature);
+
+        // 
         pol = (int)polF;
         if(pol>earth.maxPol)
         {
             pol = earth.maxPol;
             polF = pol;
         }
+
         // 计算异常时间累计值
         if (temperature > abnormalTemperature)
         {
@@ -106,15 +127,21 @@ public class RegionControl : MonoBehaviour
         // 温度过高一律变成沙漠
         if (temperatureToohighTime >= changeTime)
         {
-            changeRegionToDesert();
+            changeRegionTo(Region.Desert);
             
         }
-        // 温度过低，海洋不变沙漠
-        if (temperatureToolowTime >= changeTime && region != Region.Sea)
+        // 温度过低，海洋和Sea Ground不变沙漠
+        if (temperatureToolowTime >= changeTime && region != Region.Sea && region != Region.SeaGround)
         {
-            changeRegionToDesert();
+            changeRegionTo(Region.Desert);
         }
 
+
+        // 海洋淹没
+        Flood();
+
+        // Sea Ground退潮
+        Ebb();
     }
 
     private bool isUnderSunshine(float eulerAngle)
@@ -127,10 +154,59 @@ public class RegionControl : MonoBehaviour
     }
 
 
-    private void changeRegionToDesert()
+    public void changeRegionTo(Region re)
     {
-        region = Region.Desert;
+        region = re;
         LoadImage();
     }
     
+    private void Flood()
+    {
+        if (region == Region.Sea && Mathf.Abs(rotateControlInstance.earthAc) > abnormalAc)
+        {
+            RegionControl[] regionControls = transform.parent.GetComponentsInChildren<RegionControl>();
+            int ind = transform.GetSiblingIndex();
+            int targetInd;
+            if (rotateControlInstance.earthAc > 0)
+            {
+                if (ind == 0)
+                {
+                    targetInd = regionControls.Length - 1;
+                }
+                else
+                {
+                    targetInd = ind - 1;
+                }
+            }
+            else
+            {
+                if (ind == regionControls.Length - 1)
+                {
+                    targetInd = 0;
+                }
+                else
+                {
+                    targetInd = ind + 1;
+                }
+            }
+            // 不是海洋变SeaGround
+            if (regionControls[targetInd].region != Region.Sea)
+            {
+                regionControls[targetInd].changeRegionTo(Region.SeaGround);
+                regionControls[targetInd].nowEbbTime = ebbTime;
+            }
+        }
+    }
+
+    private void Ebb()
+    {
+        if (region == Region.SeaGround)
+        {
+            nowEbbTime -= Time.fixedDeltaTime;
+            if (nowEbbTime <= 0f)
+            {
+                changeRegionTo(Region.FlatGround);
+            }
+        }
+    }
 }

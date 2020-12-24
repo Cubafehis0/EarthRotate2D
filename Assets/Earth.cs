@@ -13,14 +13,18 @@ public class Earth : MonoBehaviour
     public int polInc;
     public int maxPol;
     public int maxCity;
-    public int pol;
     public bool hasFirstCity;
     public Text eraText;
     public Text populationText;
     public Sprite[] citySprites;
     public float polNormalDecProportion;
     public float polOverTempDecProportion;
+    public float polOverSpeedDecProportion;
+    public bool endGame;
+    public GameObject endGameBt;
+    public float earthSpeedToDeacresePeople;
     List<SpriteRenderer> cityRedenerer;
+    public int pol;
 
     RotateControl rotateControl;
     RegionControl[] regionControls;
@@ -40,59 +44,27 @@ public class Earth : MonoBehaviour
         rotateControl = RotateControl.rotateControlInstance;
         regionControls = GetComponentsInChildren<RegionControl>();
         hasFirstCity = false;
+        endGame = false;
     }
     private void FixedUpdate()
     {
         FirstCity();
         if(hasFirstCity)
         {
-            PopulationInc();
-            Population();
-        } 
+            if (endGame)
+            {
+                endGameBt.SetActive(true);
+            }
+            else
+            {
+                PopulationInc();
+                Population();
+            }
+        }       
     }
+    
     void PopulationInc()
     {
-        int notFullPolCityCnt = 0;
-        int shineCityCnt = 0;
-        foreach (var region in regionControls)
-        {
-            if (region.region == Region.City)
-            {
-                if (!region.isOverNormalTemp())
-                {
-                    Debug.Log(region.pol);
-                    if (region.isUnderSunshine())
-                    {
-                        shineCityCnt++;
-                        if (region.pol < maxPol)
-                        {
-                            notFullPolCityCnt++;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (notFullPolCityCnt != 0)
-        {
-            float speed = shineCityCnt / notFullPolCityCnt;
-            foreach (var region in regionControls)
-            {
-                if (region.region == Region.City)
-                {
-                    if (!region.isOverNormalTemp())
-                    {
-                        if (region.isUnderSunshine())
-                        {
-                            if (region.pol < maxPol)
-                            {
-                                region.polF += polInc * speed * Time.deltaTime;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         foreach (var region in regionControls)
         {
             if (region.region == Region.City)
@@ -103,11 +75,6 @@ public class Earth : MonoBehaviour
                 if (region.isOverNormalTemp())
                 {
                     region.decreasePolF += polOverTempDecProportion * region.polF * Time.deltaTime;
-                }
-                region.pol = (int)region.polF;
-                if (pol == maxPol)
-                {
-                    region.polF = region.pol;
                 }
                 region.decreasePol = (int)region.decreasePolF;
                 if (region.decreasePol > 0)
@@ -123,8 +90,79 @@ public class Earth : MonoBehaviour
                     region.polF = 0;
                 }
             }
-            //CityUpDate();
         }
+        //自转过快
+        if(Mathf.Abs(rotateControl.earthS)>earthSpeedToDeacresePeople)
+        {
+            foreach(RegionControl region in regionControls)
+            {
+                if(region.region==Region.City || region.region==Region.SeaCity)
+                {
+                    region.decreasePolF += polOverSpeedDecProportion * region.polF * Time.deltaTime;
+                    region.decreasePol = (int)region.decreasePolF;
+                    if (region.decreasePol > 0)
+                    {
+                        region.pol -= region.decreasePol;
+                        region.polF -= region.decreasePol;
+                        region.decreasePolF -= region.decreasePol;
+                        region.decreasePol = 0;
+                    }
+                    if (region.pol < 0)
+                    {
+                        region.pol = 0;
+                        region.polF = 0;
+                    }
+                }
+            }
+        }
+        //正常人口增长
+        else
+        {
+            int notFullPolCityCnt = 0;
+            int shineCityCnt = 0;
+            foreach (var region in regionControls)
+            {
+                if (region.region == Region.City)
+                {
+                    if (!region.isOverNormalTemp())
+                    {
+                        if (region.isUnderSunshine())
+                        {
+                            shineCityCnt++;
+                            if (region.pol < maxPol)
+                            {
+                                notFullPolCityCnt++;
+                            }
+                        }
+                    }
+                }
+            }
+            if (notFullPolCityCnt != 0)
+            {
+                float speed = shineCityCnt / notFullPolCityCnt;
+                foreach (var region in regionControls)
+                {
+                    if (region.region == Region.City)
+                    {
+                        if (!region.isOverNormalTemp())
+                        {
+                            if (region.pol < maxPol)
+                            {
+                                region.polF += polInc * speed * Time.deltaTime;
+                            }
+                        }
+                        region.pol = (int)region.polF;
+                        if (region.pol >= maxPol)
+                        {
+                            region.pol = maxPol;
+                            region.polF = region.pol;
+                        }
+                    }
+                }
+            }
+        }
+        
+        CityUpDate();
     }
     void Population()
     {
@@ -133,7 +171,7 @@ public class Earth : MonoBehaviour
         bool isNeedNewCity = true;
         foreach (var region in regionControls)
         {
-            if (region.region == Region.City)
+            if (region.region == Region.City || region.region==Region.SeaCity)
             {
                 cityCnt++;
                 pol += region.pol;
@@ -143,7 +181,12 @@ public class Earth : MonoBehaviour
                 }
             }
         }
-        if (isNeedNewCity)
+
+        if (cityCnt == 0)
+        {
+            endGame = true;
+        }
+        else if (isNeedNewCity)
         {
             if (cityCnt == maxCity)
             {
@@ -155,7 +198,7 @@ public class Earth : MonoBehaviour
                 NewCity();
             }
         }
-        populationText.text = pol.ToString();        
+        populationText.text = pol.ToString();    
     }
     void FirstCity()
     {
@@ -188,16 +231,16 @@ public class Earth : MonoBehaviour
             case Era.AgricultureEra:
                 {
                     polInc = 1;
-                    maxPol=10;
+                    maxPol=20;
                     maxCity = 3;
                     eraText.text = "农业时代";
                     break;
                 }
             case Era.IndutrialEra:
                 {
-                    polInc = 10;
+                    polInc = 20;
                     maxCity = 6;
-                    maxPol = 100;
+                    maxPol = 300;
                     eraText.text = "工业时代";
                     break;
                 }
@@ -227,28 +270,42 @@ public class Earth : MonoBehaviour
         //}
         foreach(var region in regionControls)
         {
-            if(region.region==Region.City)
+            if(region.region==Region.City ||region.region==Region.SeaCity)
             {
                 int index = GetCityLevel(region);
-                region.transform.GetChild(0).GetComponentInChildren<SpriteRenderer>().sprite=citySprites[index];
+                if(index!=-1)
+                {
+                     region.transform.GetChild(0).GetComponentInChildren<SpriteRenderer>().sprite=citySprites[index];
+                }
+                else
+                {
+                    if(region.region==Region.SeaCity)
+                    {
+                        region.changeRegionTo(Region.SeaGround);
+                    }
+                    else if(region.region==Region.City)
+                    {
+                        region.changeRegionTo(Region.FlatGround);
+                    }
+                }
             }
         }
     }
     int GetCityLevel(RegionControl region)
     {
-        if(0<=region.pol && region.pol<10)
+        if(0<region.pol && region.pol<=20)
         {
             return 0;
         }
-        else if(region.pol>=10 && region.pol<100)
+        else if(region.pol>20 && region.pol<=300)
         {
             return 1;
         }
-        else if(region.pol>=100 && region.pol<1000)
+        else if(region.pol>300 && region.pol<=1000)
         {
             return 2;
         }
-        else if(region.pol>=1000 && region.pol<=10000)
+        else if(region.pol>1000 && region.pol<=10000)
         {
             return 3;
         }

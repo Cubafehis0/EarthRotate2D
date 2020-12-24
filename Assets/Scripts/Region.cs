@@ -10,5 +10,6 @@ public enum Region
     Desert,
     City,
     SeaGround,
-    SeaCity
+    SeaCity,
+    ironGround
 }

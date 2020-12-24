@@ -76,6 +76,11 @@ public class RegionControl : MonoBehaviour
                     sprite.color = Color.cyan;
                     break;
                 }
+            case Region.ironGround:
+                {
+                    sprite.color = Color.white;
+                    break;
+                }
         }
 
     }
@@ -89,13 +94,7 @@ public class RegionControl : MonoBehaviour
     {
         if(region==Region.City && isReachDestoryTemp())
         {
-            region = Region.Desert;
-            Transform transform1=transform.GetChild(0);
-            Destroy(transform1.gameObject);
-            pol = 0;
-            polF = 0;
-            decreasePol = 0;
-            decreasePolF = 0;
+            changeRegionTo(Region.Desert);
         }
         if (isUnderSunshine())
         {
@@ -135,7 +134,6 @@ public class RegionControl : MonoBehaviour
         if (temperatureToohighTime >= changeTime)
         {
             changeRegionTo(Region.Desert);
-            
         }
         // 温度过低，海洋和Sea Ground不变沙漠
         if (temperatureToolowTime >= changeTime && region != Region.Sea && region != Region.SeaGround)
@@ -177,10 +175,27 @@ public class RegionControl : MonoBehaviour
     }
 
 
-    public void changeRegionTo(Region re)
-    private void changeRegionToDesert()
+    public void changeRegionTo(Region region)
     {
-        region = re;
+        if(this.region==Region.City)
+        {
+            if(region!=Region.SeaCity)
+            {
+                Transform transform1 = transform.GetChild(0);
+                Destroy(transform1.gameObject);
+                pol = 0;
+                polF = 0;
+                decreasePol = 0;
+                decreasePolF = 0;
+            }
+            else
+            {
+                polF = 0.7f * pol;
+                // 人口减少
+                pol =(int)polF;
+            }
+        }
+        this.region = region;
         LoadImage();
     }
     
@@ -213,26 +228,55 @@ public class RegionControl : MonoBehaviour
                     targetInd = ind + 1;
                 }
             }
-            // 变SeaGround
-            if (regionControls[targetInd].region == Region.Desert || 
-                regionControls[targetInd].region == Region.FlatGround ||
-                regionControls[targetInd].region == Region.Forest ||
-                regionControls[targetInd].region == Region.SeaGround)
-            {
-                regionControls[targetInd].changeRegionTo(Region.SeaGround);
-                regionControls[targetInd].nowEbbTime = ebbTime;
-            }
-            else if (regionControls[targetInd].region == Region.City ||
-                regionControls[targetInd].region == Region.SeaCity)
+            Flood(targetInd);
+        }
+    }
+    public void FloodAround()
+    {
+        RegionControl[] regionControls = transform.parent.GetComponentsInChildren<RegionControl>();
+        int ind = transform.GetSiblingIndex();
+        int targetInd;
+        if (ind == 0)
+        {
+            targetInd = regionControls.Length - 1;
+        }
+        else
+        {
+            targetInd = ind - 1;
+        }
+        Flood(targetInd);
+
+        if (ind == regionControls.Length - 1)
+        {
+            targetInd = 0;
+        }
+        else
+        {
+            targetInd = ind + 1;
+        }
+        Flood(targetInd);
+        // 变SeaGround
+        
+    }
+
+    public void Flood(int targetInd)
+    {
+        RegionControl[] regionControls = transform.parent.GetComponentsInChildren<RegionControl>();
+        if(regionControls[targetInd].region!=Region.Sea)
+        {
+            if (regionControls[targetInd].region == Region.City ||
+            regionControls[targetInd].region == Region.SeaCity)
             {
                 regionControls[targetInd].changeRegionTo(Region.SeaCity);
                 regionControls[targetInd].nowEbbTime = ebbTime;
-                // 人口减少
-                pol -= (int)(pol * 0.3f);
             }
+            else{
+            regionControls[targetInd].changeRegionTo(Region.SeaGround);
+            regionControls[targetInd].nowEbbTime = ebbTime;
         }
+        }
+        
     }
-
     private void Ebb()
     {
         if (region == Region.SeaGround)

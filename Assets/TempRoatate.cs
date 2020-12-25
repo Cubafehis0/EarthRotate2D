@@ -14,10 +14,4 @@ public class TempRoatate : MonoBehaviour
     {
         transform.rotation = earth.transform.rotation;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -16,9 +16,4 @@ public class TempShow : MonoBehaviour
     {
         text.text = region.temperature.ToString();
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -35,16 +35,18 @@ public class RegionControl : MonoBehaviour
     SpriteRenderer sprite;
     Earth earth;
     RotateControl rotateControlInstance;
+    RegionSprite regionSprite;
     // Start is called before the first frame update
     void Start()
     {
-        sprite = GetComponent<SpriteRenderer>();
-        LoadImage();
+        sprite = GetComponentInChildren<SpriteRenderer>();
         temperature = initTemperature;
         earth = Earth.earth;
         temperatureToohighTime = 0f;
+        regionSprite = RegionSprite.regionSprite;
         rotateControlInstance = RotateControl.rotateControlInstance;
         nowEbbTime = 0f;
+        LoadImage();
     }
 
     void LoadImage()
@@ -53,32 +55,32 @@ public class RegionControl : MonoBehaviour
         {
             case Region.Desert:
                 {
-                    sprite.color = Color.yellow;
+                    sprite.sprite=regionSprite.desert;
                     break;
                 }
             case Region.FlatGround:
                 {
-                    sprite.color = Color.grey;
+                    sprite.sprite = regionSprite.flatground;
                     break;
                 }
             case Region.Forest:
                 {
-                    sprite.color = Color.green;
+                    sprite.sprite=regionSprite.forest;
                     break;
                 }
             case Region.Sea:
                 {
-                    sprite.color = Color.blue;
+                    sprite.sprite=regionSprite.sea;
                     break;
                 }
             case Region.SeaGround:
                 {
-                    sprite.color = Color.cyan;
+                    sprite.sprite=regionSprite.seaGround;
                     break;
                 }
             case Region.ironGround:
                 {
-                    sprite.color = Color.white;
+                    sprite.sprite=regionSprite.ironGround;
                     break;
                 }
         }
@@ -181,8 +183,6 @@ public class RegionControl : MonoBehaviour
         {
             if(region!=Region.SeaCity)
             {
-                Transform transform1 = transform.GetChild(0);
-                Destroy(transform1.gameObject);
                 pol = 0;
                 polF = 0;
                 decreasePol = 0;
@@ -273,9 +273,8 @@ public class RegionControl : MonoBehaviour
             else{
             regionControls[targetInd].changeRegionTo(Region.SeaGround);
             regionControls[targetInd].nowEbbTime = ebbTime;
+            }
         }
-        }
-        
     }
     private void Ebb()
     {

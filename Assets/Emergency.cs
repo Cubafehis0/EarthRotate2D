@@ -40,14 +40,12 @@ public class Emergency : MonoBehaviour
 
     private void FixedUpdate()
     {
-
         if(earth.pol>0)
         {
             if(!hasEmergency || hasYunShi)
             {
                 YunShi();
             }
-            
         }
     }
     public void YunShi()
@@ -60,7 +58,7 @@ public class Emergency : MonoBehaviour
                 hasYunShi = true;
                 float dir = Random.Range(0, 2 * Mathf.PI);
                 Vector3 position = new Vector2(yunShiMoveTime * yunShiSpeed * Mathf.Cos(dir), yunShiSpeed * yunShiMoveTime * Mathf.Sin(dir));
-                yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.identity).transform;
+                yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.Euler(new Vector3(0, 0, dir / Mathf.PI * 180))).transform;
                 yunshiDir = new Vector2(-Mathf.Cos(dir), -Mathf.Sin(dir));
                 hasEmergency = true;
                 hasYunShiOverCd =false;
@@ -71,7 +69,7 @@ public class Emergency : MonoBehaviour
         }
         else if (hasYunShi == true)
         {
-            yunShiTrans.Translate(yunshiDir * Time.deltaTime * yunShiSpeed);
+            yunShiTrans.Translate(yunshiDir * Time.deltaTime * yunShiSpeed,Space.World);
             Vector2 dis = yunShiTrans.position - earth.transform.position;
             float second = (dis.magnitude - 1.69f) / yunShiSpeed;
             secondText.text = second.ToString() + " s";
@@ -85,10 +83,5 @@ public class Emergency : MonoBehaviour
                 yunShiOverTime = 0;
             }
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

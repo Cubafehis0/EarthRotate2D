@@ -8,5 +8,4 @@ public enum Era
     IndutrialEra,
     InformationEra,
     AtomicEra,
-    City
 }

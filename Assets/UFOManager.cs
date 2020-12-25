@@ -9,7 +9,6 @@ public class UFOManager : MonoBehaviour
     public float RoundSpeed = 2f;
     public GameObject Raser;
     public Transform RaserTrans;
-    public float RaserSpeed = 5f;
 
     bool hasShoot = false;
     GameObject raser;
@@ -25,9 +24,12 @@ public class UFOManager : MonoBehaviour
     float moveSpeed = 1f;
     bool initMove = false;
     UFOMoveType moveType;
+    Emergency EmergencyInstance;
+    public float animationTime = 2f;
     // Start is called before the first frame update
     void Start()
     {
+        EmergencyInstance = Emergency.emergencyInstance;
         desPos = transform.position.normalized * UFOHeight;
         initMove = true;
         nowMoveTime = RoundTime;
@@ -79,6 +81,17 @@ public class UFOManager : MonoBehaviour
             }
             Move(moveType);
         }
+
+        if (HP <= 0)
+        {
+            OnUFOCrash();
+        }
+        // test crash
+        if (Input.touchCount >= 2)    
+        {
+            Debug.Log("crash");
+            OnUFOCrash();
+        }
     }
 
     void initMoveTo(Vector3 destination)
@@ -126,11 +139,6 @@ public class UFOManager : MonoBehaviour
                     raser = Instantiate<GameObject>(Raser, RaserTrans.position, RaserTrans.rotation);
                     hasShoot = true;
                 }
-                if (raser != null)
-                {
-                    Vector3 raserDir = (Vector3.zero - raser.transform.position).normalized;
-                    raser.transform.Translate(raserDir * RaserSpeed * Time.fixedDeltaTime, Space.World);
-                }
                 break;
             default:
                 break;
@@ -159,5 +167,20 @@ public class UFOManager : MonoBehaviour
         Debug.Log("Defocus");
         transform.parent = null;
         focusCity = null;
+    }
+
+    void OnUFOCrash()
+    {
+        // UFO破坏动画
+        gameObject.GetComponent<Crasher>().Crash();
+        // 改变时代
+
+        // 改变emergency状态
+        EmergencyInstance.hasEmergency = false;
+        EmergencyInstance.hasET = false;
+        EmergencyInstance.nowETInterval = EmergencyInstance.ETInterval;
+        
+        // Destroy
+        Destroy(gameObject);
     }
 }

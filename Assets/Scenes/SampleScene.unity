@@ -484,6 +484,7 @@ RectTransform:
   - {fileID: 1283622564}
   - {fileID: 1514521513}
   - {fileID: 1322549505}
+  - {fileID: 1100489591}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -526,7 +527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 334, y: 918}
+  m_AnchoredPosition: {x: -273, y: -626}
   m_SizeDelta: {x: 450, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &337843535
@@ -1622,17 +1623,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   citySprites:
-  - {fileID: 21300000, guid: 551e5f29a523e0d4ea2e01e8b4e6f366, type: 3}
-  - {fileID: 21300000, guid: 2ba070780e484834f84a56753cf9b664, type: 3}
-  - {fileID: 21300000, guid: 9de909523ef81ae4883882ac1b1f72e3, type: 3}
-  - {fileID: 21300000, guid: 2cdcc25e1256bd043b76d5544f9e8c5f, type: 3}
-  - {fileID: 21300000, guid: d4c66c5fca3ec4c40b82269f8fd41c0e, type: 3}
-  sea: {fileID: 21300000, guid: 5de3c88ed0587f64da0ea5bbdb7407dd, type: 3}
-  seaGround: {fileID: 21300000, guid: e5ad9ef8701fb074fbf0f39c0d69ac15, type: 3}
-  flatground: {fileID: 21300000, guid: e5ad9ef8701fb074fbf0f39c0d69ac15, type: 3}
-  desert: {fileID: 21300000, guid: 5e73beccdacd8454ca3a35f3e7d99b02, type: 3}
-  forest: {fileID: 21300000, guid: b5d2acd44ab47e847ade273da15b2eac, type: 3}
-  ironGround: {fileID: 21300000, guid: 9a225e801797fe34a8cc4a846c57d0fe, type: 3}
+  - {fileID: 21300000, guid: fd8bb7fbd1f4b714e9edef18a0c742c9, type: 3}
+  - {fileID: 21300000, guid: 12b3466704259694cbbeb5a42d8ab76c, type: 3}
+  - {fileID: 21300000, guid: 41e8b8b0494b7104d89a5ec694565c8d, type: 3}
+  - {fileID: 21300000, guid: 829023606c553904091910d0d0090a11, type: 3}
+  - {fileID: 21300000, guid: 1cb48670fd3a924458110bddb632e2af, type: 3}
+  sea: {fileID: 21300000, guid: aeb84e718378efa4e8ea4c381f22581b, type: 3}
+  seaGround: {fileID: 21300000, guid: 0ace462e82863714e8928e7725864d21, type: 3}
+  flatground: {fileID: 21300000, guid: bab5803bab0ac5f4dbc59dfe402288f0, type: 3}
+  desert: {fileID: 21300000, guid: 22c8a5f9ec2a1784eb5525c256df6657, type: 3}
+  forest: {fileID: 21300000, guid: 6efaed11d5e38874095cb2c54d7b8801, type: 3}
+  ironGround: {fileID: 21300000, guid: 894ec38cacfecf34fb0706de82fd76e6, type: 3}
 --- !u!114 &900436405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1648,7 +1649,7 @@ MonoBehaviour:
   hasEmergency: 0
   hasYunShi: 0
   hasYunShiOverCd: 0
-  yunShiGaiLv: 1
+  yunShiGaiLv: 2000
   yunShi: {fileID: 5157669031215927859, guid: 427ead74c556cca4189647e0584aeab7, type: 3}
   yunShiSpeed: 1.4
   yunShiMoveTime: 4
@@ -1657,7 +1658,7 @@ MonoBehaviour:
   secondText: {fileID: 849773794}
   line: {fileID: 1033169447}
   hasET: 0
-  ETProbability: 100
+  ETProbability: 200000
   ETWarningTime: 1
   UFO: {fileID: 5118018325789878904, guid: a9037ac4eda1a014cb1c395ebc32cef8, type: 3}
   ETInterval: 50
@@ -1801,6 +1802,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b05f3a40293a3f4ab14795235430697, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1100489590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1100489591}
+  - component: {fileID: 1100489593}
+  - component: {fileID: 1100489592}
+  m_Layer: 5
+  m_Name: Tip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1100489591
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100489590}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 291260309}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 337, y: 987}
+  m_SizeDelta: {x: 400, y: 200}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1100489592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100489590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 90
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 100
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &1100489593
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1100489590}
+  m_CullTransparentMesh: 1
 --- !u!1 &1129926117
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,7 +3256,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 339, y: 1066}
+  m_AnchoredPosition: {x: -268, y: -478}
   m_SizeDelta: {x: 450, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1743514077
@@ -3632,21 +3711,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minS: 40
   maxS: 90
-  time: 0
   occurTime: 1
-  polInc: 0
-  maxPol: 0
-  maxCity: 0
-  hasFirstCity: 0
   eraText: {fileID: 337843535}
   populationText: {fileID: 1461588602}
   polNormalDecProportion: 0.01
   polOverTempDecProportion: 0.1
   polOverSpeedDecProportion: 0.1
-  endGame: 0
-  endGameBt: {fileID: 1514521512}
   earthSpeedToDeacresePeople: 130
+  endGameBt: {fileID: 1514521512}
   pol: 0
+  hasFinishEraTask: 00000000
+  eraEvolutionNeedTime: 5
+  tip: {fileID: 1100489592}
+  populationInc: 010000000a00000014000000e8030000
+  maxPopulationInEra: 140000002c010000e803000010270000
+  maxCityNum: 0300000006000000090000000a000000
+  eraTextContent:
+  - "\u519C\u4E1A\u65F6\u4EE3"
+  - "\u5DE5\u4E1A\u65F6\u4EE3"
+  - "\u4FE1\u606F\u65F6\u4EE3"
+  - "\u539F\u5B50\u65F6\u4EE3"
 --- !u!1 &2145227901
 GameObject:
   m_ObjectHideFlags: 0

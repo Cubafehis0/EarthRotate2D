@@ -7,24 +7,52 @@ public class Earth : MonoBehaviour
     public static Earth earth;
     public float minS;
     public float maxS;
-    public float time;
+    float firstCityTime;
+    [Tooltip("速度稳定时出现第一个城市需要的时间")]
     public float occurTime;
-    public int polInc;
-    public int maxPol;
-    public int maxCity;
-    public bool hasFirstCity;
+    //是否拥有第一个城市
+    bool hasFirstCity;
     public Text eraText;
     public Text populationText;
     public float polNormalDecProportion;
     public float polOverTempDecProportion;
     public float polOverSpeedDecProportion;
-    public bool endGame;
-    public GameObject endGameBt;
     public float earthSpeedToDeacresePeople;
+
+    bool endGame;
+    public GameObject endGameBt;
+    
     public int pol;
+
+    //游戏内任务线
+
+    //人口是否超过50，进入工业化的条件
+    //是否打败过外星人，进入信息化的条件
+    //信息化城市是否超过3个，进入原子化
+    public bool[] hasFinishEraTask= { false, false, false,false };
+    //是否完成时代进化
+    bool[] hasFinishEra = { false, false, false };
+
+    [SerializeField]
+    float eraEvolutionNeedTime=0;
+    float eraHasEvolutionTime=0;
+    [SerializeField]
+    Text tip;
+
+    [SerializeField]
+    int[] populationInc;
+    [SerializeField]
+    int[] maxPopulationInEra;
+    [SerializeField]
+    int[] maxCityNum;
+    [SerializeField]
+    string[] eraTextContent;
+    int maxPopulation;
+    int maxCity;
     RegionSprite regionSprite;
     RotateControl rotateControl;
     RegionControl[] regionControls;
+    //完成时代化后，科技时代发生进化，科技时代不会发生变化
     Era era;
     private void Awake()
     {
@@ -56,10 +84,72 @@ public class Earth : MonoBehaviour
             {
                 PopulationInc();
                 Population();
+                EraChange();
             }
         }       
     }
-    
+    void EraChange()
+    {
+        if(!hasFinishEraTask[0])
+        {
+            if(pol>50)
+            {
+                hasFinishEraTask[0] = true;
+            }
+        }
+        //外星人
+
+        //
+        if (!hasFinishEraTask[2])
+        {
+            int cnt = 0;
+            foreach(var region in regionControls)
+            {
+                if(region.region==Region.City || region.region==Region.SeaCity)
+                {
+                    int level = GetCityLevel(region);
+                    if(level==2)
+                    {
+                        cnt++;
+                    }                    
+                }
+            }
+            if(cnt>=3)
+            {
+                hasFinishEraTask[2] = true;
+            }
+        }
+        //是否需要升级城市,当人口超过当前时代上限时解除第一个限制
+        bool isSwitchEra=false;
+        foreach(var region in regionControls)
+        {
+            if(region.pol==maxPopulation)
+            {
+                isSwitchEra = true;
+                break;
+            }
+        }
+        if(isSwitchEra)
+        {
+            int eraLevel = (int)era;
+            if(hasFinishEraTask[eraLevel])
+            {
+                EraEvolution();
+            }
+        }           
+    }
+    public void EraEvolution()
+    {
+        //tip.text = "";
+        eraHasEvolutionTime += Time.deltaTime;
+        if(eraHasEvolutionTime>eraEvolutionNeedTime)
+        {
+            eraHasEvolutionTime = 0;
+            tip.text = null;
+            //hasFinishEra[(int)era+1] = true;
+            SwitchEra((Era)((int)era+1));
+        }
+    }
     void PopulationInc()
     {
         foreach (var region in regionControls)
@@ -84,11 +174,11 @@ public class Earth : MonoBehaviour
             }
         }
         //自转过快
-        if(Mathf.Abs(rotateControl.earthS)>earthSpeedToDeacresePeople)
+        if (Mathf.Abs(rotateControl.earthS) > earthSpeedToDeacresePeople)
         {
-            foreach(RegionControl region in regionControls)
+            foreach (RegionControl region in regionControls)
             {
-                if(region.region==Region.City || region.region==Region.SeaCity)
+                if (region.region == Region.City || region.region == Region.SeaCity)
                 {
                     region.decreasePolF += polOverSpeedDecProportion * region.polF * Time.deltaTime;
                 }
@@ -105,8 +195,10 @@ public class Earth : MonoBehaviour
         //正常人口增长
         else
         {
-            int notFullPolCityCnt = 0;
-            int shineCityCnt = 0;
+            //该参数记录了其他城市超出上限的增加的人口值
+            float overPopulation = 0;
+            //人数未满并且可以增加人口的城市
+            int notFullCityCnt=0;
             foreach (var region in regionControls)
             {
                 if (region.region == Region.City)
@@ -115,31 +207,62 @@ public class Earth : MonoBehaviour
                     {
                         if (region.isUnderSunshine())
                         {
-                            shineCityCnt++;
-                            if (region.pol < maxPol)
+                            //第一次遍历将将满的城市加满
+                            if (region.polF + populationInc[GetCityLevel(region)] * Time.deltaTime > maxPopulation)
                             {
-                                notFullPolCityCnt++;
+                                overPopulation += region.polF + populationInc[GetCityLevel(region)] * Time.deltaTime - maxPopulation;
+                                region.polF = maxPopulation;
+                                region.pol = maxPopulation;
                             }
+                            else
+                            {
+                                notFullCityCnt++;
+                            }
+                        }
+                        else
+                        {
+                            notFullCityCnt++;
                         }
                     }
                 }
             }
-            if (notFullPolCityCnt != 0)
+            //if (notFullPolCityCnt != 0)
+            //{
+            //    float speed = shineCityCnt / notFullPolCityCnt;
+            //    foreach (var region in regionControls)
+            //    {
+            //        if (region.region == Region.City)
+            //        {
+            //            if (!region.isOverNormalTemp())
+            //            {
+            //                if (region.pol < maxPol)
+            //                {
+            //                    region.polF += polInc * speed * Time.deltaTime;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            if(notFullCityCnt!=0)
             {
-                float speed = shineCityCnt / notFullPolCityCnt;
+                float incPopEveryCity = overPopulation / notFullCityCnt;
                 foreach (var region in regionControls)
                 {
                     if (region.region == Region.City)
                     {
                         if (!region.isOverNormalTemp())
                         {
-                            if (region.pol < maxPol)
+                            region.polF += incPopEveryCity;
+                            if(region.isUnderSunshine())
                             {
-                                region.polF += polInc * speed * Time.deltaTime;
+                                if (region.pol < maxPopulation)
+                                {
+                                    region.polF += populationInc[GetCityLevel(region)] * Time.deltaTime;
+                                }
                             }
                         }
                     }
-                }
+                }   
             }
         }
         foreach (var region in regionControls)
@@ -152,9 +275,9 @@ public class Earth : MonoBehaviour
                     region.pol = 0;
                     region.polF = 0;
                 }
-                else if (region.pol >= maxPol)
+                if(region.pol>=maxPopulation)
                 {
-                    region.pol = maxPol;
+                    region.pol = maxPopulation;
                     region.polF = region.pol;
                 }
             }
@@ -172,25 +295,19 @@ public class Earth : MonoBehaviour
             {
                 cityCnt++;
                 pol += region.pol;
-                if (region.pol < maxPol)
+                if (region.pol < maxPopulation)
                 {
                     isNeedNewCity = false;
                 }
             }
         }
-
         if (cityCnt == 0)
         {
             endGame = true;
         }
         else if (isNeedNewCity)
         {
-            if (cityCnt == maxCity)
-            {
-                int m = (int)era;
-                SwitchEra((Era)(m + 1));
-            }
-            else
+            if (cityCnt < maxCity)
             {
                 NewCity();
             }
@@ -203,19 +320,19 @@ public class Earth : MonoBehaviour
         {
             if (Mathf.Abs(rotateControl.earthS) >= minS && Mathf.Abs(rotateControl.earthS) <= maxS)
             {
-                time += Time.deltaTime;
+                firstCityTime += Time.deltaTime;
             }
             else
             {
-                time = 0;
+                firstCityTime = 0;
             }
-            if (time > occurTime)
+            if (firstCityTime > occurTime)
             {
                 if(NewCity())
                 {
                     SwitchEra(Era.AgricultureEra);
                 }
-                time = 0;
+                firstCityTime = 0;
                 hasFirstCity = true;
             }
         }
@@ -223,54 +340,20 @@ public class Earth : MonoBehaviour
     void SwitchEra(Era era)
     {
         this.era = era;
-        switch(era)
-        {
-            case Era.AgricultureEra:
-                {
-                    polInc = 1;
-                    maxPol=20;
-                    maxCity = 3;
-                    eraText.text = "农业时代";
-                    break;
-                }
-            case Era.IndutrialEra:
-                {
-                    polInc = 20;
-                    maxCity = 6;
-                    maxPol = 300;
-                    eraText.text = "工业时代";
-                    break;
-                }
-            case Era.InformationEra:
-                {
-                    polInc = 100;
-                    maxPol = 1000;
-                    maxCity = 9;
-                    eraText.text = "信息时代";
-                    break;
-                }
-            case Era.AtomicEra:
-                {
-                    polInc = 1000;
-                    maxPol = 10000;
-                    maxCity = 10000;
-                    eraText.text = "原子能时代";
-                    break;
-                }
-        }
+        maxPopulation = maxPopulationInEra[(int)era];
+        maxCity = maxCityNum[(int)era];
+        eraText.text = eraTextContent[(int)era];
     }
+    /// <summary>
+    /// 根据城市的人口换贴图h或者摧毁城市
+    /// </summary>
     void CityUpDate()
     {
-        int time = 0;
         foreach(var region in regionControls)
         {
             if(region.region==Region.City ||region.region==Region.SeaCity)
             {
                 int index = GetCityLevel(region);
-                if(index>time)
-                {
-                    time = index;
-                }
                 if(index!=-1)
                 {
                     Sprite sprite = region.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -303,26 +386,22 @@ public class Earth : MonoBehaviour
                 }
             }
         }
-        if(time!=(int)era)
-        {
-            SwitchEra((Era)time);
-        }
     }
-    int GetCityLevel(RegionControl region)
+    public int GetCityLevel(RegionControl region)
     {
-        if(0<region.pol && region.pol<=20)
+        if(0<region.pol && region.pol<=maxPopulationInEra[0])
         {
             return 0;
         }
-        else if(region.pol>20 && region.pol<=300)
+        else if(region.pol> maxPopulationInEra[0] && region.pol<= maxPopulationInEra[1])
         {
             return 1;
         }
-        else if(region.pol>300 && region.pol<=1000)
+        else if(region.pol> maxPopulationInEra[1] && region.pol<= maxPopulationInEra[2])
         {
             return 2;
         }
-        else if(region.pol>1000 && region.pol<=10000)
+        else if(region.pol> maxPopulationInEra[2] && region.pol<= maxPopulationInEra[3])
         {
             return 3;
         }
@@ -363,10 +442,5 @@ public class Earth : MonoBehaviour
         region1.pol = 1;
         region1.polF = 1;
         return true;
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -108,14 +108,6 @@ public class RegionControl : MonoBehaviour
         }
         temperature = Mathf.Clamp(temperature, -maxTemperature, maxTemperature);
 
-        // 
-        pol = (int)polF;
-        if(pol>earth.maxPol)
-        {
-            pol = earth.maxPol;
-            polF = pol;
-        }
-
         // 计算异常时间累计值
         if (temperature > abnormalTemperature)
         {

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 99124083}
   - component: {fileID: 99124082}
   m_Layer: 5
-  m_Name: YunShi
+  m_Name: textWarning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,8 +155,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -254, y: 800}
-  m_SizeDelta: {x: 450, y: 120}
+  m_AnchoredPosition: {x: -625, y: 74}
+  m_SizeDelta: {x: 300, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &99124082
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 90
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1004,7 +1004,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -301, y: 742}
+  m_AnchoredPosition: {x: -683, y: 16}
   m_SizeDelta: {x: 600, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &706828299
@@ -1264,7 +1264,7 @@ GameObject:
   - component: {fileID: 849773795}
   - component: {fileID: 849773794}
   m_Layer: 5
-  m_Name: second
+  m_Name: seconds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1286,8 +1286,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -254, y: 685}
-  m_SizeDelta: {x: 450, y: 120}
+  m_AnchoredPosition: {x: -625, y: -41}
+  m_SizeDelta: {x: 300, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &849773794
 MonoBehaviour:
@@ -1310,7 +1310,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 90
+    m_FontSize: 60
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1547,6 +1547,8 @@ MonoBehaviour:
   maxAcc: 3
   maxS: 100
   damp: 0
+  recordGap: 0.2
+  path: Assets/
 --- !u!4 &900436403
 Transform:
   m_ObjectHideFlags: 0
@@ -1584,6 +1586,11 @@ MonoBehaviour:
   fixedText: {fileID: 99124082}
   secondText: {fileID: 849773794}
   line: {fileID: 1033169447}
+  hasET: 0
+  ETProbability: 100
+  ETWarningTime: 10
+  UFO: {fileID: 0}
+  ETInterval: 50
 --- !u!1 &1033169446
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,7 +1717,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1049121037 stripped
 MonoBehaviour:
@@ -2006,36 +2013,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   region: {fileID: 369017262}
---- !u!1 &1227338062
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1227338063}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1227338063
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1227338062}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.32, y: -1.69, z: -0.18896484}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1258604190
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,7 +2251,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1322549505}
   m_Layer: 5
-  m_Name: YunShiWarning
+  m_Name: Warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

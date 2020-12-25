@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Emergency : MonoBehaviour
 {
+
+    Earth earth;
+    // yunshi
     public bool hasEmergency;
     public bool hasYunShi;
     public bool hasYunShiOverCd;
-    Earth earth;
     public float yunShiGaiLv;
     public GameObject yunShi;
     Transform yunShiTrans;
@@ -19,10 +21,19 @@ public class Emergency : MonoBehaviour
     public LineRenderer line;
     float yunShiOverTime;
     Vector2 yunshiDir;
+
+    // ET
+    public bool hasET;
+    public float ETProbability;
+    public float ETWarningTime;
+    private float nowETWarningTime;
+    public GameObject UFO;
+    public float ETInterval;
+
     public static Emergency emergency;
     private void Awake()
     {
-        if(emergency!=null)
+        if (emergency != null)
         {
             Destroy(emergency);
         }
@@ -31,7 +42,7 @@ public class Emergency : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         earth = Earth.earth;
         hasEmergency = false;
         hasYunShi = false;
@@ -41,20 +52,24 @@ public class Emergency : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if(earth.pol>0)
+        if (earth.pol > 0)
         {
-            if(!hasEmergency || hasYunShi)
+            if (!hasEmergency || hasYunShi)
             {
                 YunShi();
             }
-            
+            if (!hasEmergency || hasET)
+            {
+                ET();
+            }
+
         }
     }
     public void YunShi()
     {
         if (!hasYunShi && hasYunShiOverCd)
         {
-            float range = Random.value*yunShiGaiLv;
+            float range = Random.value * yunShiGaiLv;
             if (range > 0 && range < 1)
             {
                 hasYunShi = true;
@@ -63,7 +78,7 @@ public class Emergency : MonoBehaviour
                 yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.identity).transform;
                 yunshiDir = new Vector2(-Mathf.Cos(dir), -Mathf.Sin(dir));
                 hasEmergency = true;
-                hasYunShiOverCd =false;
+                hasYunShiOverCd = false;
                 yunShiOverTime = 0;
                 line.SetPosition(1, yunShiTrans.position);
                 fixedText.text = "陨石警告";
@@ -89,6 +104,34 @@ public class Emergency : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    private void ET()
+    {
+        if (!hasET)
+        {
+            float range = Random.value * ETProbability;
+            if (range > 0 && range < 1)
+            {
+                hasET = true;
+                hasEmergency = true;
+                fixedText.text = "UFO即将来袭";
+                float dir = Random.Range(0, 2 * Mathf.PI);
+                Vector3 position = new Vector3(Mathf.Cos(dir), Mathf.Sin(dir));
+                position *= UFO.GetComponent<UFOManager>().UFOHeight * 2;
+
+                // 播放UFO动画
+
+                StartCoroutine(GenerateUFO(position));
+            }
+        }
+    } 
+
+
+    IEnumerator GenerateUFO(Vector3 position)
+    {
+        yield return new WaitForSeconds(ETWarningTime);
+        Instantiate(UFO, position + earth.transform.position, Quaternion.identity);
     }
 }

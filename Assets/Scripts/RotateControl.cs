@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.IO;
 public class RotateControl : MonoBehaviour
 {
     public GameObject handle;
@@ -35,7 +35,10 @@ public class RotateControl : MonoBehaviour
 
     bool isTouching;
 
-
+    public float recordGap = 0.2f;
+    private float recordTime;
+    public string path = @"Assets/";
+    StreamWriter sw;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -53,6 +56,10 @@ public class RotateControl : MonoBehaviour
         center = centerTrans.position;
         handle.SetActive(false);
         damp = 0;
+
+        FileInfo fi = new FileInfo(path + "//" + "record.txt");
+        sw = fi.CreateText();
+        recordTime = recordGap;
     }
     private void FixedUpdate()
     {
@@ -134,6 +141,19 @@ public class RotateControl : MonoBehaviour
         earthAc /= scale;
         HandleMove();
         EarthMove();
+
+        recordTime -= Time.fixedDeltaTime;
+        if (recordTime <= 0f)
+        {
+            sw.WriteLine(earthS);
+            recordTime = recordGap;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        sw.Close();
+        sw.Dispose();
     }
     void HandleMove()
     {

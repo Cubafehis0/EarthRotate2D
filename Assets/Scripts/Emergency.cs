@@ -29,16 +29,17 @@ public class Emergency : MonoBehaviour
     private float nowETWarningTime;
     public GameObject UFO;
     public float ETInterval;
+    public float nowETInterval;
     private bool isWarning;
 
-    public static Emergency emergency;
+    public static Emergency emergencyInstance;
     private void Awake()
     {
-        if (emergency != null)
+        if (emergencyInstance != null)
         {
-            Destroy(emergency);
+            Destroy(emergencyInstance);
         }
-        emergency = this;
+        emergencyInstance = this;
     }
     // Start is called before the first frame update
     void Start()
@@ -48,10 +49,15 @@ public class Emergency : MonoBehaviour
         hasEmergency = false;
         hasYunShi = false;
         hasYunShiOverCd = true;
+        nowETInterval = 0f;
     }
 
     private void FixedUpdate()
     {
+        if (nowETInterval >= 0f)
+        {
+            nowETInterval -= Time.fixedDeltaTime;
+        }
         if (earth.pol > 0)
         {
             if (!hasEmergency || hasYunShi)
@@ -115,7 +121,7 @@ public class Emergency : MonoBehaviour
 
     private void ET()
     {
-        if (!hasET)
+        if (!hasET && nowETInterval <= 0f)
         {
             float range = Random.value * ETProbability;
             if (range > 0 && range < 1)

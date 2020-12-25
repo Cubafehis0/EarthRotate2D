@@ -5,6 +5,13 @@ using UnityEngine;
 public class RaserAttck : MonoBehaviour
 {
     public float populationDecreasePercent = 0.1f;
+    public float RaserSpeed = 5f;
+
+    private void FixedUpdate()
+    {
+        Vector3 raserDir = (Vector3.zero - transform.position).normalized;
+        transform.Translate(raserDir * RaserSpeed * Time.fixedDeltaTime, Space.World);
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider != null && collision.collider.gameObject.layer ==  LayerMask.NameToLayer("Region")) 

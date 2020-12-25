@@ -31,6 +31,7 @@ public class RotateControl : MonoBehaviour
     public float maxAcc;
     public float maxS;
     public float damp;
+    public bool startGame;
     Touch touch;
 
     bool isTouching;
@@ -51,6 +52,7 @@ public class RotateControl : MonoBehaviour
     }
     void Start()
     {
+        startGame = false;
         lastPos = new Vector2(0,0);
         nowPos = new Vector2(0,0);
         center = centerTrans.position;
@@ -141,6 +143,11 @@ public class RotateControl : MonoBehaviour
         earthAc /= scale;
         HandleMove();
         EarthMove();
+
+        if (Mathf.Abs(earthS) > 10f)
+        {
+            startGame = true;
+        }
 
         recordTime -= Time.fixedDeltaTime;
         if (recordTime <= 0f)

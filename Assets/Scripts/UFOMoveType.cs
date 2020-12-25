@@ -1,2 +1,2 @@
-﻿public enum UFOMoveType{ Round, Focus};
+﻿public enum UFOMoveType{ Shoot, Round, Focus};
 

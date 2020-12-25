@@ -29,6 +29,7 @@ public class Emergency : MonoBehaviour
     private float nowETWarningTime;
     public GameObject UFO;
     public float ETInterval;
+    private bool isWarning;
 
     public static Emergency emergency;
     private void Awake()
@@ -42,7 +43,7 @@ public class Emergency : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        isWarning = false;
         earth = Earth.earth;
         hasEmergency = false;
         hasYunShi = false;
@@ -63,6 +64,11 @@ public class Emergency : MonoBehaviour
                 ET();
             }
 
+        }
+        if (isWarning)
+        {
+            nowETWarningTime -= Time.fixedDeltaTime;
+            secondText.text = nowETWarningTime.ToString();
         }
     }
     public void YunShi()
@@ -123,15 +129,20 @@ public class Emergency : MonoBehaviour
 
                 // 播放UFO动画
 
-                StartCoroutine(GenerateUFO(position));
+                StartCoroutine(GenerateUFO(position, dir));
             }
         }
     } 
 
 
-    IEnumerator GenerateUFO(Vector3 position)
+    IEnumerator GenerateUFO(Vector3 position, float dir)
     {
+        isWarning = true;
+        nowETWarningTime = ETWarningTime;
         yield return new WaitForSeconds(ETWarningTime);
-        Instantiate(UFO, position + earth.transform.position, Quaternion.identity);
+        fixedText.text = "";
+        secondText.text = "";
+        isWarning = false;
+        Instantiate<GameObject>(UFO, position, Quaternion.Euler(0, 0, dir * Mathf.Rad2Deg - 90f));
     }
 }

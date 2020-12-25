@@ -94,6 +94,11 @@ public class RegionControl : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!rotateControlInstance.startGame)
+        {
+            return;
+        }
+
         if(region==Region.City && isReachDestoryTemp())
         {
             changeRegionTo(Region.Desert);

@@ -7,6 +7,9 @@ public class RegionControl : MonoBehaviour
     [Tooltip("退潮需要的时间")]
     public float ebbTime;
     private float nowEbbTime;
+    [Tooltip("开采陨石需要时间")]
+    public float mineTime;
+    public float nowMineTime;
     [Tooltip("异常加速度")]
     public float abnormalAc;
     [Tooltip("异常温度值")]
@@ -32,6 +35,7 @@ public class RegionControl : MonoBehaviour
     public int decreasePol;
     public float polF;
     public int pol;
+    public GameObject alternator;
     SpriteRenderer sprite;
     Earth earth;
     RotateControl rotateControlInstance;
@@ -52,6 +56,7 @@ public class RegionControl : MonoBehaviour
         rotateControlInstance = RotateControl.rotateControlInstance;
         nowEbbTime = 0f;
         LoadImage();
+
     }
 
     void LoadImage()
@@ -134,15 +139,18 @@ public class RegionControl : MonoBehaviour
             temperatureToolowTime -= Time.fixedDeltaTime;
             temperatureToolowTime = Mathf.Clamp(temperatureToolowTime, 0f, float.MaxValue);
         }
-        // 温度过高一律变成沙漠
-        if (temperatureToohighTime >= changeTime)
+        if(earth.era < Era.AtomicEra)
         {
-            changeRegionTo(Region.Desert);
-        }
-        // 温度过低，海洋和Sea Ground不变沙漠
-        if (temperatureToolowTime >= changeTime && region != Region.Sea && region != Region.SeaGround)
-        {
-            changeRegionTo(Region.Desert);
+            // 温度过高一律变成沙漠
+            if (temperatureToohighTime >= changeTime)
+            {
+                changeRegionTo(Region.Desert);
+            }
+            // 温度过低，海洋和Sea Ground不变沙漠
+            if (temperatureToolowTime >= changeTime && region != Region.Sea && region != Region.SeaGround)
+            {
+                changeRegionTo(Region.Desert);
+            }
         }
 
 
@@ -151,6 +159,9 @@ public class RegionControl : MonoBehaviour
 
         // Sea Ground退潮
         Ebb();
+
+        //ironGround 开采陨石建设风力发电机
+        Mine();
     }
 
     public bool isUnderSunshine()
@@ -269,8 +280,11 @@ public class RegionControl : MonoBehaviour
             if (regionControls[targetInd].region == Region.City ||
             regionControls[targetInd].region == Region.SeaCity)
             {
-                regionControls[targetInd].changeRegionTo(Region.SeaCity);
-                regionControls[targetInd].nowEbbTime = ebbTime;
+                if(earth.era<Era.InformationEra)
+                {
+                    regionControls[targetInd].changeRegionTo(Region.SeaCity);
+                    regionControls[targetInd].nowEbbTime = ebbTime;
+                }
             }
             else{
             regionControls[targetInd].changeRegionTo(Region.SeaGround);
@@ -278,6 +292,7 @@ public class RegionControl : MonoBehaviour
             }
         }
     }
+    
     private void Ebb()
     {
         if (region == Region.SeaGround)
@@ -296,5 +311,22 @@ public class RegionControl : MonoBehaviour
                 changeRegionTo(Region.City);
             }
         }
+    }
+    private void Mine()
+    {
+        if (region == Region.ironGround)
+        {
+            nowMineTime -= Time.fixedDeltaTime;
+            if (nowMineTime <= 0f)
+            {
+                changeRegionTo(Region.FlatGround);
+                alternator.SetActive(true);
+            }
+        }
+    }
+    public void SetAlternatorActive(bool active)
+    {
+
+        alternator.SetActive(active);
     }
 }

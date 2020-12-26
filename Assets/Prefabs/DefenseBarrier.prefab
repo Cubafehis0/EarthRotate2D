@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6366768427260992774}
   - component: {fileID: 2175059139674051893}
   - component: {fileID: 8905109986968196163}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 3671788347810642467}
   - component: {fileID: 3535296481570037290}
   - component: {fileID: 6614472164094492891}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 2228878039888273438}
   - component: {fileID: 6960141481110949527}
   - component: {fileID: 8959804679053386249}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefenseBarrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 8245177551083096247}
   - component: {fileID: 4842144226829489342}
   - component: {fileID: 7751694137806250378}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 2091980102453443336}
   - component: {fileID: 4971727000640370628}
   - component: {fileID: 9012038780395680084}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 4949418459475472169}
   - component: {fileID: 7540261702476763407}
   - component: {fileID: 4280519527540418358}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 7261472091031911568}
   - component: {fileID: 9085223601283628980}
   - component: {fileID: 1764317515424958669}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -864,7 +864,7 @@ GameObject:
   - component: {fileID: 1175559855076563160}
   - component: {fileID: 7646136263855888047}
   - component: {fileID: 6085542821021513786}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -979,7 +979,7 @@ GameObject:
   - component: {fileID: 3582866570784694162}
   - component: {fileID: 5266224717835638009}
   - component: {fileID: 2319240441257828594}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Barrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}

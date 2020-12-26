@@ -65,7 +65,7 @@ public class Emergency : MonoBehaviour
                 YunShi();
             }
 
-            if (!hasEmergency || hasET)
+            if (!hasEmergency && earth.era >= Era.IndutrialEra || hasET)
             {
                 ET();
             }
@@ -76,7 +76,35 @@ public class Emergency : MonoBehaviour
             nowETWarningTime -= Time.fixedDeltaTime;
             secondText.text = nowETWarningTime.ToString();
         }
+        if (hasET)
+        {
+            foreach (var region in earth.regionControls)
+            {
+                if (region.nowAAG != null && !region.nowAAG.activeSelf)
+                {
+                    region.nowAAG.SetActive(true);
+                }
+            }
+        }
+        else
+        {
+            foreach (var region in earth.regionControls)
+            {
+                if (region.nowAAG != null && region.nowAAG.activeSelf)
+                {
+                    region.nowAAG.GetComponent<Animator>().SetTrigger("end");
+                    StartCoroutine(SetDeactiveLater(region.nowAAG));
+                }
+            }
+        }
     }
+
+    IEnumerator SetDeactiveLater(GameObject AAG)
+    {
+        yield return new WaitForSeconds(1f);
+        AAG.SetActive(false);
+    }
+
     public void YunShi()
     {
         if (!hasYunShi && hasYunShiOverCd)
@@ -140,6 +168,7 @@ public class Emergency : MonoBehaviour
         }
     } 
 
+    
 
     IEnumerator GenerateUFO(Vector3 position, float dir)
     {

@@ -14,6 +14,12 @@ public class Collision : MonoBehaviour
         }
         else
         {
+            
+            if (region.nowAAG != null)
+            {
+                region.nowAAG.SetActive(false);
+                region.nowAAG = null;
+            }
             region.changeRegionTo(Region.ironGround);
         }
         emergency.hasEmergency = false;

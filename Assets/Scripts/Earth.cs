@@ -51,9 +51,9 @@ public class Earth : MonoBehaviour
     int maxCity;
     RegionSprite regionSprite;
     RotateControl rotateControl;
-    RegionControl[] regionControls;
+    public RegionControl[] regionControls;
     //完成时代化后，科技时代发生进化，科技时代不会发生变化
-    Era era;
+    public Era era;
     private void Awake()
     {
         if(earth!=null)
@@ -97,7 +97,8 @@ public class Earth : MonoBehaviour
                 hasFinishEraTask[0] = true;
             }
         }
-        //外星人
+        // 收炮
+
 
         //
         if (!hasFinishEraTask[2])
@@ -361,6 +362,12 @@ public class Earth : MonoBehaviour
                     {
                         if(sprite!= regionSprite.citySprites[1] && sprite!=regionSprite.citySprites[4])
                         {
+                            if (region.nowAAG != null)
+                            {
+                                region.nowAAG.SetActive(false);
+                            }
+                            region.nowAAG = region.IndustryAAG;
+                            Debug.Log(region.nowAAG.name);
                             float range = Random.value;
                             if (range < 0.5)
                             {
@@ -376,12 +383,27 @@ public class Earth : MonoBehaviour
                     {
                         if(sprite!=regionSprite.citySprites[index])
                         {
+                            if (region.nowAAG != null)
+                            {
+                                region.nowAAG.SetActive(false);
+                                region.nowAAG = null;
+                            }
+                            if (index == 2)
+                            {
+                                region.nowAAG = region.InformationAAG;
+                            }
+
                             region.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = regionSprite.citySprites[index];
                         }
                     }
                 }
                 else
                 {
+                    if (region.nowAAG != null)
+                    {
+                        region.nowAAG.SetActive(false);
+                        region.nowAAG = null;
+                    }
                     region.changeRegionTo(Region.FlatGround);
                 }
             }

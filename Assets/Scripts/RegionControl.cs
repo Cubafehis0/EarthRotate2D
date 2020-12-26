@@ -36,9 +36,14 @@ public class RegionControl : MonoBehaviour
     Earth earth;
     RotateControl rotateControlInstance;
     RegionSprite regionSprite;
+    public GameObject IndustryAAG;
+    public GameObject InformationAAG;
+    public GameObject nowAAG;
+    public int nowCityLevel;
     // Start is called before the first frame update
     void Start()
     {
+        nowCityLevel = -1;
         sprite = GetComponentInChildren<SpriteRenderer>();
         temperature = initTemperature;
         earth = Earth.earth;

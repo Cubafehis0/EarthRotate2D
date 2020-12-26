@@ -379,7 +379,6 @@ public class Earth : MonoBehaviour
                                 region.nowAAG.SetActive(false);
                             }
                             region.nowAAG = region.IndustryAAG;
-                            Debug.Log(region.nowAAG.name);
                             float range = Random.value;
                             if (range < 0.5)
                             {

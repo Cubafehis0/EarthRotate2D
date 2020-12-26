@@ -64,7 +64,7 @@ public class Emergency : MonoBehaviour
             //    YunShi();
             //}
             YunShi();
-            if (!hasEmergency || hasET)
+            if (!hasEmergency && earth.era >= Era.IndutrialEra || hasET)
             {
                 ET();
             }
@@ -84,24 +84,9 @@ public class Emergency : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            foreach (var region in earth.regionControls)
-            {
-                if (region.nowAAG != null && region.nowAAG.activeSelf)
-                {
-                    region.nowAAG.GetComponent<Animator>().SetTrigger("end");
-                    StartCoroutine(SetDeactiveLater(region.nowAAG));
-                }
-            }
-        }
     }
 
-    IEnumerator SetDeactiveLater(GameObject AAG)
-    {
-        yield return new WaitForSeconds(1f);
-        AAG.SetActive(false);
-    }
+    
 
     public void YunShi()
     {

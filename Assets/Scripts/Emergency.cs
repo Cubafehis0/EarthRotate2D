@@ -9,8 +9,6 @@ public class Emergency : MonoBehaviour
     // yunshi
     public bool hasEmergency;
     public bool hasYunShi;
-    public bool hasYunShiOverCd;
-    public float yunShiGaiLv;
 
     public GameObject yunShi;
     Transform yunShiTrans;
@@ -49,7 +47,6 @@ public class Emergency : MonoBehaviour
         earth = Earth.earth;
         hasEmergency = false;
         hasYunShi = false;
-        hasYunShiOverCd = true;
         nowETInterval = 0f;
         yunShiTimeSinceLast = 0;
     }

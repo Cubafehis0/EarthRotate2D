@@ -15,7 +15,7 @@ public class AGGManager : MonoBehaviour
     {
         RegionController = GetComponentInParent<RegionControl>();
         earthInstance = Earth.earth;
-        emergencyInstance = Emergency.emergencyInstance;
+        emergencyInstance = Emergency.emergency;
     }
 
     // Update is called once per frame

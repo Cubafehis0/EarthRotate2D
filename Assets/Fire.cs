@@ -31,7 +31,7 @@ public class Fire : MonoBehaviour
             return;
         }
         
-        if (!Emergency.emergencyInstance.hasET)
+        if (!Emergency.emergency.hasET)
         {
             return;
         }

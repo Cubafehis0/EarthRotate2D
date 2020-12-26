@@ -31,6 +31,6 @@ public class Collision : MonoBehaviour
     }
     private void Awake()
     {
-        emergency = Emergency.emergencyInstance;
+        emergency = Emergency.emergency;
     }
 }

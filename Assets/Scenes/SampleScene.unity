@@ -4635,7 +4635,7 @@ MonoBehaviour:
   hasFinishEraTask: 00000000
   eraEvolutionNeedTime: 5
   tip: {fileID: 1100489592}
-  populationInc: 320000005a00000014000000e8030000
+  populationInc: 010000000a00000028000000e8030000
   maxPopulationInEra: 140000002c010000e803000010270000
   maxCityNum: 0a0000000a0000000a0000000a000000
   eraTextContent:

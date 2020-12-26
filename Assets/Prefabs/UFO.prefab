@@ -175,7 +175,6 @@ GameObject:
   - component: {fileID: 3152384678904236745}
   - component: {fileID: 4350489278391522709}
   - component: {fileID: 6422659882954855803}
-  - component: {fileID: 8157402894700029562}
   m_Layer: 0
   m_Name: UFO
   m_TagString: UFO
@@ -317,25 +316,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7038938, y: 0.2801044}
   m_EdgeRadius: 0
---- !u!95 &8157402894700029562
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5118018325789878904}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f2f947591aed8a34fa63d6e2b470db5f, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6741695101091633736
 GameObject:
   m_ObjectHideFlags: 0

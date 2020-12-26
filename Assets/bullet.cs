@@ -27,13 +27,10 @@ public class bullet : MonoBehaviour
     {
         if (collision.collider != null)
         {
-            Debug.Log(collision.collider.name);
             if (collision.collider.tag == "UFO")
             {
-                UFOManager ufo = collision.collider.GetComponent<UFOManager>();
-                ufo.HP -= AttckNum;
+                collision.collider.GetComponent<UFOManager>().HP -= AttckNum;
                 // 子弹击中动画
-                ufo.Attacked();
 
                 Destroy(gameObject);
             }

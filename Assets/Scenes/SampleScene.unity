@@ -1414,7 +1414,7 @@ MonoBehaviour:
   yunShiSpeed: 1.4
   yunShiMoveTime: 4
   hasET: 0
-  ETProbability: 2000
+  ETProbability: 2e+14
   ETWarningTime: 0
   UFO: {fileID: 4356355609221734995, guid: 23ab9cee9eda1c7439a853982e13b4d8, type: 3}
   ETInterval: 0

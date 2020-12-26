@@ -108,10 +108,12 @@ public class RegionControl : MonoBehaviour
         {
             return;
         }
-
-        if(region==Region.City && isReachDestoryTemp())
+        if (earth.era < Era.AtomicEra)
         {
-            changeRegionTo(Region.Desert);
+            if (region == Region.City && isReachDestoryTemp())
+            {
+                changeRegionTo(Region.Desert);
+            }
         }
         if (isUnderSunshine())
         {

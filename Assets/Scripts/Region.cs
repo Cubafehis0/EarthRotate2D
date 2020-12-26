@@ -12,5 +12,4 @@ public enum Region
     SeaGround,
     SeaCity,
     ironGround,
-    ironCity
 }

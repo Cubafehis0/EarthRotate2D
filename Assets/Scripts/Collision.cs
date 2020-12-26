@@ -7,34 +7,38 @@ public class Collision : MonoBehaviour
     Emergency emergency;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Region"))
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Region") || collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
         {
-            RegionControl region = collision.gameObject.GetComponent<RegionControl>();
-            if (region.region == Region.Sea)
+
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Region"))
             {
-                region.FloodAround();
-            }
-            else
-            {
-                region.changeRegionTo(Region.ironGround);
-                region.nowMineTime = region.mineTime;
-                region.SetAlternatorActive(false);
-                if (region.nowAAG != null)
+                RegionControl region = collision.gameObject.GetComponent<RegionControl>();
+                if (region.region == Region.Sea)
                 {
-                    region.nowAAG.SetActive(false);
-                    region.nowAAG = null;
+                    region.FloodAround();
                 }
-                region.changeRegionTo(Region.ironGround);
+                else
+                {
+                    region.changeRegionTo(Region.ironGround);
+                    region.nowMineTime = region.mineTime;
+                    region.SetAlternatorActive(false);
+                    if (region.nowAAG != null)
+                    {
+                        region.nowAAG.SetActive(false);
+                        region.nowAAG = null;
+                    }
+                    region.changeRegionTo(Region.ironGround);
+                }
             }
+            else if (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
+            {
+
+
+            }
+            emergency.hasEmergency = false;
+            emergency.hasYunShi = false;
+            Destroy(gameObject);
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Barrier"))
-        {
-            
-            
-        }
-        emergency.hasEmergency = false;
-        emergency.hasYunShi = false;
-        Destroy(gameObject);
     }
     private void Awake()
     {

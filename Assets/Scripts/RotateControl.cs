@@ -13,9 +13,9 @@ public class RotateControl : MonoBehaviour
     public float angle;
     public static RotateControl rotateControlInstance;
     [Tooltip("")]
-    GameObject earth;
+    public GameObject Earth;
     [Tooltip("handle中心")]
-    public Vector2 center;
+    Vector2 center;
     [Tooltip("地球角加速度")]
     public float earthAc;
     [Tooltip("地球角速度")]
@@ -32,10 +32,6 @@ public class RotateControl : MonoBehaviour
     public float maxS;
     public float damp;
     public bool startGame;
-    public ControlMode controlMode;
-    public int touchRange;
-    //一个变量，作为切换时
-    public bool isSwitching;
     Touch touch;
 
     bool isTouching;
@@ -56,10 +52,9 @@ public class RotateControl : MonoBehaviour
     }
     void Start()
     {
-        earth = Earth.earth.gameObject;
         startGame = false;
-        lastPos = new Vector2(0, 0);
-        nowPos = new Vector2(0, 0);
+        lastPos = new Vector2(0,0);
+        nowPos = new Vector2(0,0);
         center = centerTrans.position;
         handle.SetActive(false);
         damp = 0;
@@ -70,31 +65,85 @@ public class RotateControl : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //if(isSwitching)
-        //{
-        //    //earthAc = 0;
-        //    //earthS = 0;
-        //    //float earthAngle = Earth.earth.transform.rotation.eulerAngles.z;
-        //    //nowPos = center + new Vector2(100 * Mathf.Cos(earthAngle), 100 * Mathf.Sin(earthAngle));
-        //    //lastPos = nowPos;
-        //    isSwitching = false;
-        //}
         if (isTouching)
         {
             float targetSpeed = angleSpeed / scale;
-            earthAc = (targetSpeed - earthS) * Time.deltaTime;
+            earthAc = (targetSpeed - earthS) / 40;
         }
+        
+        //float force = angleSpeed - earthS;
+
+        //阻力和速度成正比
+        //float force = angleSpeed;
+        //float dampAbs = earthS / maxS * staticDampAbs;
+        //if (dampAbs > staticDampAbs)
+        //{
+        //    dampAbs = staticDampAbs;
+        //}
+        //if (earthS == 0)
+        //{
+        //    if (force != 0)
+        //    {
+        //        damp = -force / Mathf.Abs(force) * dampAbs;
+        //        earthAc = force + damp;
+        //        if (earthAc * force <= 0)
+        //        {
+        //            earthAc = 0;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    //if(Mathf.Abs(earthS)<speedLijie)
+        //    //{
+        //    //    dampAbs = dampAbs;
+        //    //}
+        //    //else
+        //    //{
+        //    //    dampAbs = dampAbs;
+        //    //}
+        //    damp = -earthS / Mathf.Abs(earthS) * dampAbs;
+        //    earthAc = force + damp;
+        //}
+
+
+        //if (Mathf.Abs(earthAc)>maxAcc && earthAc*earthS>0)
+        //{
+        //    earthAc = earthAc / Mathf.Abs(earthAc) * maxAcc;
+        //}
+        ////防止越界情况
+        //if(Mathf.Abs(angleSpeed)<dampAbs && earthS*damp>0)
+        //{
+        //    earthS = 0;
+        //    earthAc = 0;
+        //}
+        //else if(earthS==0)
+        //{
+        //    if(angleSpeed!=0)
+        //    {
+        //        damp = -angleSpeed / Mathf.Abs(angleSpeed) * dampAbs;
+        //        earthAc = angleSpeed + damp;
+        //        //加速度与阻力在一个方向则不行
+        //        if (earthAc*damp >= 0)
+        //        {
+        //            earthAc = 0;
+        //        }
+        //    }  
+        //    else
+        //    {
+        //        damp = 0;
+        //        earthAc = 0;
+        //    }
+        //}
+        //else
+        //{
+        //    damp = - earthS / Mathf.Abs(earthS) * Mathf.Abs(damp);
+        //    earthAc = angleSpeed + damp;
+        //}
         earthAc /= scale;
         HandleMove();
         EarthMove();
-        //if (controlMode == ControlMode.Normal)
-        //{
-        //    EarthMove();
-        //}
-        //else if (controlMode == ControlMode.Emergency)
-        //{
-        //    EarthMoveInEmergeny();
-        //}
+
         if (Mathf.Abs(earthS) > 10f)
         {
             startGame = true;
@@ -105,7 +154,7 @@ public class RotateControl : MonoBehaviour
         {
             sw.WriteLine(earthS);
             recordTime = recordGap;
-        }       
+        }
     }
 
     private void OnDestroy()
@@ -118,33 +167,26 @@ public class RotateControl : MonoBehaviour
         if (touch.phase == TouchPhase.Moved)
         {
             Vector2 pos = nowPos - center;
-            if (pos.magnitude < radius)
+            if(pos.magnitude<radius)
             {
                 handle.transform.position = nowPos;
             }
             else
             {
                 Vector2 dir = pos.normalized;
-                handle.transform.position = center + radius * dir;
+                handle.transform.position = center + radius*dir;
             }
         }
     }
     void EarthMove()
     {
         earthS += earthAc;
-        earth.transform.Rotate(0, 0, earthS * Time.deltaTime);
-    }
-    void EarthMoveInEmergeny()
-    {
-        float sourAngle = earth.transform.rotation.eulerAngles.z;
-        Vector2 des = nowPos - center;
-        float targetAngle = Vector2.SignedAngle(new Vector2(1,0), des)+180;
-        float targetSpeed = (targetAngle - sourAngle) / Time.deltaTime;
-        Debug.Log(targetAngle);
-        Debug.Log(sourAngle);
-        earthAc = targetSpeed - earthS;
-        earthS += earthAc;
-        earth.transform.Rotate(0, 0, earthS * Time.deltaTime);
+        //if(Mathf.Abs(earthAc)<Mathf.Abs(damp) && earthS*damp>0)
+        //{
+        //    earthS = 0;
+        //}
+        Earth.transform.Rotate(0,0,earthS * Time.deltaTime);
+       
     }
     // Update is called once per frame
     void Update()
@@ -153,27 +195,31 @@ public class RotateControl : MonoBehaviour
         {
             isTouching = true;
             touch = Input.GetTouch(0);
-            if (Vector2.Distance(touch.position, center) < touchRange)
+            if (touch.phase == TouchPhase.Began)
             {
-                if (touch.phase == TouchPhase.Began)
-                {
-                    nowPos = touch.position;
-                    lastPos = touch.position;
-                    angleSpeed = 0;
-                    handle.SetActive(true);
-                }
-                else if (touch.phase == TouchPhase.Moved)
-                {
-                    Vector2 sour = lastPos - center;
-                    Vector2 dis = nowPos - center;
-                    angle = Vector2.SignedAngle(sour, dis);
-                    angleSpeed = angle / Time.deltaTime;
-                    lastPos = nowPos;
-                    nowPos = touch.position;
-                }
-                
+                nowPos = touch.position;
+                lastPos = touch.position;
+                angleSpeed = 0;
+                handle.SetActive(true);
             }
-            if (touch.phase == TouchPhase.Ended)
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                Vector2 sour = lastPos - center;
+                Vector2 dis = nowPos - center;
+                angle=Vector2.SignedAngle(sour, dis);
+                //while(angle>Mathf.PI)
+                //{
+                //    angle -= 2*Mathf.PI;
+                //}
+                //while(angle<-Mathf.PI)
+                //{
+                //    angle += 2*Mathf.PI;
+                //}
+                angleSpeed = angle / Time.deltaTime;
+                lastPos = nowPos;
+                nowPos = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Ended)
             {
                 handle.SetActive(false);
                 lastPos = nowPos;

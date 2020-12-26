@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ebbTime: 3
-  mineTime: 3
+  mineTime: 10
   nowMineTime: 0
   abnormalAc: 1
   abnormalTemperature: 15

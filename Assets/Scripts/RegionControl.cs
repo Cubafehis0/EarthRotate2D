@@ -316,15 +316,19 @@ public class RegionControl : MonoBehaviour
     }
     private void Mine()
     {
-        if (region == Region.ironGround)
+        if(earth.era>=Era.IndutrialEra)
         {
-            nowMineTime -= Time.fixedDeltaTime;
-            if (nowMineTime <= 0f)
+            if (region == Region.ironGround)
             {
-                changeRegionTo(Region.FlatGround);
-                alternator.SetActive(true);
+                nowMineTime -= Time.fixedDeltaTime;
+                if (nowMineTime <= 0f)
+                {
+                    changeRegionTo(Region.FlatGround);
+                    alternator.SetActive(true);
+                }
             }
         }
+        
     }
     public void SetAlternatorActive(bool active)
     {

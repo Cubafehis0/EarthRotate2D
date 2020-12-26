@@ -1436,10 +1436,10 @@ MonoBehaviour:
   yunShiSpeed: 1.4
   yunShiMoveTime: 4
   hasET: 0
-  ETProbability: 1
+  ETProbability: 200
   ETWarningTime: 0
   UFO: {fileID: 5118018325789878904, guid: a9037ac4eda1a014cb1c395ebc32cef8, type: 3}
-  ETInterval: 10
+  ETInterval: 150
   nowETInterval: 0
   defenseBarrier: {fileID: 2228878039888273410, guid: f1ac5301802f47e47a462b14b53ad1ec,
     type: 3}
@@ -4635,7 +4635,7 @@ MonoBehaviour:
   hasFinishEraTask: 00000000
   eraEvolutionNeedTime: 5
   tip: {fileID: 1100489592}
-  populationInc: 320000005a00000014000000e8030000
+  populationInc: 010000001400000032000000e8030000
   maxPopulationInEra: 140000002c010000e803000010270000
   maxCityNum: 0a0000000a0000000a0000000a000000
   eraTextContent:

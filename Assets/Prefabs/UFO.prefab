@@ -221,7 +221,7 @@ MonoBehaviour:
   shootTime: 0.5
   RoundTime: 1
   FocusTime: 5
-  FocusDecresePercent: 0.5
+  FocusDecresePercent: 0.2
   animationTime: 1
   RaserAnim: {fileID: 6741695101091633736}
 --- !u!212 &3152384678904236745

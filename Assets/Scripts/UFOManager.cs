@@ -29,6 +29,8 @@ public class UFOManager : MonoBehaviour
 
     public GameObject RaserAnim;
     Animator anim;
+
+    public Animator UFOAnim;
     // Start is called before the first frame update
     void Start()
     {
@@ -217,5 +219,15 @@ public class UFOManager : MonoBehaviour
 
         // Destroy
         Destroy(gameObject);
+    }
+
+    public void Attacked()
+    {
+        if (!UFOAnim.enabled)
+        {
+            UFOAnim.enabled = true;
+            return;
+        }
+        UFOAnim.SetTrigger("attacked");
     }
 }

@@ -19,6 +19,10 @@ public class Earth : MonoBehaviour
     public float polOverSpeedDecProportion;
     public float earthSpeedToDeacresePeople;
 
+    bool hasLaunchSatellite;
+    public GameObject satellite;
+    public Vector3 satalliteStartPos;
+
     bool endGame;
     public GameObject endGameBt;
     
@@ -53,7 +57,7 @@ public class Earth : MonoBehaviour
     RotateControl rotateControl;
     RegionControl[] regionControls;
     //完成时代化后，科技时代发生进化，科技时代不会发生变化
-    Era era;
+    public Era era;
     private void Awake()
     {
         if(earth!=null)
@@ -70,6 +74,7 @@ public class Earth : MonoBehaviour
         hasFirstCity = false;
         endGame = false;
         regionSprite = RegionSprite.regionSprite;
+        hasLaunchSatellite = false;
     }
     private void FixedUpdate()
     {
@@ -86,7 +91,7 @@ public class Earth : MonoBehaviour
                 Population();
                 EraChange();
             }
-        }       
+        }
     }
     void EraChange()
     {
@@ -97,9 +102,7 @@ public class Earth : MonoBehaviour
                 hasFinishEraTask[0] = true;
             }
         }
-        //外星人
 
-        //
         if (!hasFinishEraTask[2])
         {
             int cnt = 0;
@@ -136,7 +139,20 @@ public class Earth : MonoBehaviour
             {
                 EraEvolution();
             }
-        }           
+        }          
+        //进入原子化时代后，关闭所有风力发电机并且发射卫星
+        if(era==Era.AtomicEra && !hasLaunchSatellite)
+        {
+            foreach(var region in regionControls)
+            {
+                if(GetCityLevel(region)==3 && !hasLaunchSatellite)
+                {
+                    LaunchSattllite(region);
+                    hasLaunchSatellite = true;
+                    break;
+                }
+            }
+        }
     }
     public void EraEvolution()
     {
@@ -152,6 +168,7 @@ public class Earth : MonoBehaviour
     }
     void PopulationInc()
     {
+        //如果处于原子能时代，则去除所有负面影响
         foreach (var region in regionControls)
         {
             if (region.region == Region.City)
@@ -159,7 +176,7 @@ public class Earth : MonoBehaviour
                 //自然减少
                 region.decreasePolF += polNormalDecProportion * region.polF * Time.deltaTime;
                 //温度超过一定值，人口不增加，直接减少
-                if (region.isOverNormalTemp())
+                if (region.isOverNormalTemp() && era<Era.AtomicEra)
                 {
                     region.decreasePolF += polOverTempDecProportion * region.polF * Time.deltaTime;
                 }
@@ -174,7 +191,7 @@ public class Earth : MonoBehaviour
             }
         }
         //自转过快
-        if (Mathf.Abs(rotateControl.earthS) > earthSpeedToDeacresePeople)
+        if (Mathf.Abs(rotateControl.earthS) > earthSpeedToDeacresePeople && era<Era.AtomicEra)
         {
             foreach (RegionControl region in regionControls)
             {
@@ -203,9 +220,9 @@ public class Earth : MonoBehaviour
             {
                 if (region.region == Region.City)
                 {
-                    if (!region.isOverNormalTemp())
+                    if (!region.isOverNormalTemp() || era==Era.AtomicEra)
                     {
-                        if (region.isUnderSunshine())
+                        if (region.isUnderSunshine() || era==Era.AtomicEra)
                         {
                             //第一次遍历将将满的城市加满
                             if (region.polF + populationInc[GetCityLevel(region)] * Time.deltaTime > maxPopulation)
@@ -221,28 +238,14 @@ public class Earth : MonoBehaviour
                         }
                         else
                         {
-                            notFullCityCnt++;
+                            if(region.polF<maxPopulation)
+                            {
+                                notFullCityCnt++;
+                            }
                         }
                     }
                 }
             }
-            //if (notFullPolCityCnt != 0)
-            //{
-            //    float speed = shineCityCnt / notFullPolCityCnt;
-            //    foreach (var region in regionControls)
-            //    {
-            //        if (region.region == Region.City)
-            //        {
-            //            if (!region.isOverNormalTemp())
-            //            {
-            //                if (region.pol < maxPol)
-            //                {
-            //                    region.polF += polInc * speed * Time.deltaTime;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
             if(notFullCityCnt!=0)
             {
                 float incPopEveryCity = overPopulation / notFullCityCnt;
@@ -250,10 +253,10 @@ public class Earth : MonoBehaviour
                 {
                     if (region.region == Region.City)
                     {
-                        if (!region.isOverNormalTemp())
+                        if (!region.isOverNormalTemp() || era==Era.AtomicEra)
                         {
                             region.polF += incPopEveryCity;
-                            if(region.isUnderSunshine())
+                            if(region.isUnderSunshine() || Era.AtomicEra==era)
                             {
                                 if (region.pol < maxPopulation)
                                 {
@@ -343,6 +346,7 @@ public class Earth : MonoBehaviour
         maxPopulation = maxPopulationInEra[(int)era];
         maxCity = maxCityNum[(int)era];
         eraText.text = eraTextContent[(int)era];
+        Emergency.emergency.ChangYunShiGaiLv(era);
     }
     /// <summary>
     /// 根据城市的人口换贴图h或者摧毁城市
@@ -354,6 +358,13 @@ public class Earth : MonoBehaviour
             if(region.region==Region.City ||region.region==Region.SeaCity)
             {
                 int index = GetCityLevel(region);
+                if(index==3)
+                {
+                    if(region.alternator==true)
+                    {
+                        region.SetAlternatorActive(false);
+                    }
+                }
                 if(index!=-1)
                 {
                     Sprite sprite = region.gameObject.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -425,10 +436,14 @@ public class Earth : MonoBehaviour
         {
             foreach (var region in regionControls)
             {
-                if (region.region != Region.City)
+                //优先找到不是陨石的地方建城市
+                if (region.region != Region.City && region.region!=Region.SeaCity)
                 {
                     region1 = region;
-                    break;
+                    if(region1.region!=Region.ironGround)
+                    {
+                        break;
+                    }
                 }
             }
         }
@@ -442,5 +457,9 @@ public class Earth : MonoBehaviour
         region1.pol = 1;
         region1.polF = 1;
         return true;
+    }
+    public void LaunchSattllite(RegionControl region)
+    {
+        GameObject Satellite = GameObject.Instantiate(satellite, region.transform, false);
     }
 }

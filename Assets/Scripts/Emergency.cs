@@ -11,15 +11,16 @@ public class Emergency : MonoBehaviour
     public bool hasYunShi;
     public bool hasYunShiOverCd;
     public float yunShiGaiLv;
+
     public GameObject yunShi;
     Transform yunShiTrans;
     public float yunShiSpeed;
     public float yunShiMoveTime;
-    public float yunShiIntervalTime;
-    public Text fixedText;
-    public Text secondText;
-    public LineRenderer line;
-    float yunShiOverTime;
+    float yunShiNeedTime;
+    float yunShiTimeSinceLast;
+
+
+    int[] yunShiOccurTime = { 20, 10, 10, 5 };
     Vector2 yunshiDir;
 
     // ET
@@ -30,7 +31,7 @@ public class Emergency : MonoBehaviour
     public GameObject UFO;
     public float ETInterval;
     private bool isWarning;
-
+    public GameObject defenseBarrier;
     public static Emergency emergency;
     private void Awake()
     {
@@ -48,17 +49,18 @@ public class Emergency : MonoBehaviour
         hasEmergency = false;
         hasYunShi = false;
         hasYunShiOverCd = true;
+        yunShiTimeSinceLast = 0;
     }
 
     private void FixedUpdate()
     {
         if (earth.pol > 0)
         {
-            if (!hasEmergency || hasYunShi)
-            {
-                YunShi();
-            }
-
+            //if (!hasEmergency || hasYunShi)
+            //{
+            //    YunShi();
+            //}
+            YunShi();
             if (!hasEmergency || hasET)
             {
                 ET();
@@ -68,45 +70,63 @@ public class Emergency : MonoBehaviour
         if (isWarning)
         {
             nowETWarningTime -= Time.fixedDeltaTime;
-            secondText.text = nowETWarningTime.ToString();
         }
     }
     public void YunShi()
     {
-        if (!hasYunShi && hasYunShiOverCd)
+        yunShiTimeSinceLast += Time.deltaTime;
+        if(yunShiTimeSinceLast>yunShiNeedTime)
         {
-            float range = Random.value * yunShiGaiLv;
-            if (range > 0 && range < 1)
-            {
-                hasYunShi = true;
-                float dir = Random.Range(0, 2 * Mathf.PI);
-                Vector3 position = new Vector2(yunShiMoveTime * yunShiSpeed * Mathf.Cos(dir), yunShiSpeed * yunShiMoveTime * Mathf.Sin(dir));
-                yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.Euler(new Vector3(0, 0, dir / Mathf.PI * 180))).transform;
-                yunshiDir = new Vector2(-Mathf.Cos(dir), -Mathf.Sin(dir));
-                hasEmergency = true;
-                hasYunShiOverCd = false;
-                yunShiOverTime = 0;
-                line.SetPosition(1, yunShiTrans.position);
-                fixedText.text = "陨石警告";
-            }
+            yunShiTimeSinceLast = 0;
+            hasYunShi = true;
+            float dir = Random.Range(0, 2 * Mathf.PI);
+            Vector3 position = new Vector2(yunShiMoveTime * yunShiSpeed * Mathf.Cos(dir), yunShiSpeed * yunShiMoveTime * Mathf.Sin(dir));
+            yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.Euler(new Vector3(0, 0, dir / Mathf.PI * 180))).transform;
+            yunshiDir = new Vector2(-Mathf.Cos(dir), -Mathf.Sin(dir));
         }
         else if (hasYunShi == true)
         {
-            yunShiTrans.Translate(yunshiDir * Time.deltaTime * yunShiSpeed,Space.World);
-            Vector2 dis = yunShiTrans.position - earth.transform.position;
-            float second = (dis.magnitude - 1.69f) / yunShiSpeed;
-            secondText.text = second.ToString() + " s";
-        }
-        else if (!hasYunShiOverCd)
-        {
-            yunShiOverTime += Time.deltaTime;
-            if (yunShiOverTime >= yunShiIntervalTime)
-            {
-                hasYunShiOverCd = true;
-                yunShiOverTime = 0;
-            }
+            yunShiTrans.Translate(yunshiDir * Time.deltaTime * yunShiSpeed, Space.World);
         }
     }
+    //public void YunShi()
+    //{
+    //    if (!hasYunShi && hasYunShiOverCd)
+    //    {
+    //        float range = Random.value * yunShiGaiLv;
+    //        if (range > 0 && range < 1)
+    //        {
+    //            hasYunShi = true;
+    //            float dir = Random.Range(0, 2 * Mathf.PI);
+    //            Vector3 position = new Vector2(yunShiMoveTime * yunShiSpeed * Mathf.Cos(dir), yunShiSpeed * yunShiMoveTime * Mathf.Sin(dir));
+    //            yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.Euler(new Vector3(0, 0, dir / Mathf.PI * 180))).transform;
+    //            yunshiDir = new Vector2(-Mathf.Cos(dir), -Mathf.Sin(dir));
+    //            hasEmergency = true;
+    //            hasYunShiOverCd = false;
+    //            yunShiOverTime = 0;
+    //            line.SetPosition(1, yunShiTrans.position);
+    //            fixedText.text = "陨石警告";
+    //            if(earth.era==Era.AtomicEra)
+    //                defenseBarrier.SetActive(true);
+    //        }
+    //    }
+    //    else if (hasYunShi == true)
+    //    {
+    //        yunShiTrans.Translate(yunshiDir * Time.deltaTime * yunShiSpeed,Space.World);
+    //        Vector2 dis = yunShiTrans.position - earth.transform.position;
+    //        float second = (dis.magnitude - 1.69f) / yunShiSpeed;
+    //        secondText.text = second.ToString() + " s";
+    //    }
+    //    else if (!hasYunShiOverCd)
+    //    {
+    //        yunShiOverTime += Time.deltaTime;
+    //        if (yunShiOverTime >= yunShiIntervalTime)
+    //        {
+    //            hasYunShiOverCd = true;
+    //            yunShiOverTime = 0;
+    //        }
+    //    }
+    //}
     // Update is called once per frame
     void Update()
     {
@@ -122,7 +142,6 @@ public class Emergency : MonoBehaviour
             {
                 hasET = true;
                 hasEmergency = true;
-                fixedText.text = "UFO即将来袭";
                 float dir = Random.Range(0, 2 * Mathf.PI);
                 Vector3 position = new Vector3(Mathf.Cos(dir), Mathf.Sin(dir));
                 position *= UFO.GetComponent<UFOManager>().UFOHeight * 2;
@@ -134,14 +153,16 @@ public class Emergency : MonoBehaviour
         }
     } 
 
-
+    public void ChangYunShiGaiLv(Era era)
+    {
+        int level = (int)era;
+        yunShiNeedTime = yunShiOccurTime[level];
+    }
     IEnumerator GenerateUFO(Vector3 position, float dir)
     {
         isWarning = true;
         nowETWarningTime = ETWarningTime;
         yield return new WaitForSeconds(ETWarningTime);
-        fixedText.text = "";
-        secondText.text = "";
         isWarning = false;
         Instantiate<GameObject>(UFO, position, Quaternion.Euler(0, 0, dir * Mathf.Rad2Deg - 90f));
     }

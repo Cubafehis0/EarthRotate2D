@@ -1430,13 +1430,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e5ffbca1ac2fe24dbf5cfa739babeab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ETHappenPop: 800
   hasEmergency: 0
   hasYunShi: 0
   yunShi: {fileID: 5157669031215927859, guid: 427ead74c556cca4189647e0584aeab7, type: 3}
   yunShiSpeed: 1.4
   yunShiMoveTime: 4
   hasET: 0
-  ETProbability: 200
+  ETProbability: 10000
   ETWarningTime: 0
   UFO: {fileID: 5118018325789878904, guid: a9037ac4eda1a014cb1c395ebc32cef8, type: 3}
   ETInterval: 150

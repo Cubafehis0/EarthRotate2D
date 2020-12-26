@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Emergency : MonoBehaviour
 {
-
+    public int ETHappenPop = 800;
     Earth earth;
     // yunshi
     public bool hasEmergency;
@@ -154,7 +154,7 @@ public class Emergency : MonoBehaviour
         if (!hasET && nowETInterval <= 0f)
         {
             float range = Random.value * ETProbability;
-            if (range > 0 && range < 1)
+            if (range > 0 && range < 1 || earth.pol >= ETHappenPop)
             {
                 hasET = true;
                 hasEmergency = true;

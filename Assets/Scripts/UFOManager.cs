@@ -61,8 +61,8 @@ public class UFOManager : MonoBehaviour
             {
                 if (moveType == UFOMoveType.Round)
                 {
-                    float rand = Random.value * 2;
-                    if (rand < 1f)
+                    float rand = Random.value;
+                    if (rand < 0.2f)
                     {
                         moveType = UFOMoveType.Focus;
                         nowMoveTime = FocusTime;
@@ -214,8 +214,20 @@ public class UFOManager : MonoBehaviour
         EmergencyInstance.nowETInterval = EmergencyInstance.ETInterval;
 
         //  收炮
-
+        foreach (var region in Earth.earth.regionControls)
+        {
+            if (region.nowAAG != null && region.nowAAG.activeSelf)
+            {
+                region.nowAAG.GetComponent<Animator>().SetTrigger("end");
+                StartCoroutine(SetDeactiveLater(region.nowAAG));
+            }
+        }
         // Destroy
         Destroy(gameObject);
+    }
+    IEnumerator SetDeactiveLater(GameObject AAG)
+    {
+        yield return new WaitForSeconds(1.1f);
+        AAG.SetActive(false);
     }
 }

@@ -12,4 +12,5 @@ public enum Region
     SeaGround,
     SeaCity,
     ironGround,
+    Motor
 }

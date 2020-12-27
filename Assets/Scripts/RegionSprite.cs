@@ -23,4 +23,5 @@ public class RegionSprite : MonoBehaviour
     public Sprite desert;
     public Sprite forest;
     public Sprite ironGround;
+    public Sprite motor;
 }

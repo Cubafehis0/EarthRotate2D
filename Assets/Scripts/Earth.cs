@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class Earth : MonoBehaviour
 {
     #region("成员变量")
+    bool isGoodEnd=false;
     public int badEndSceneInd = 2;
     public int goodEndSceneInd = 3;
     public static Earth earth;
+    public GameObject controler;
     public float minS;
     public float maxS;
     float firstCityTime;
@@ -328,16 +330,31 @@ public class Earth : MonoBehaviour
         }
         populationText.text = pol.ToString();    
         //人口超过221231
-        if(pol>221231)
+        if(pol>221231 && !isGoodEnd)
         {
+            isGoodEnd = true;
             EventTip.eventTip.AddTips(Tip.AbserveSunExplosion);
 
-            // 10s后行星发动机建造动画，播放动画时没收摇杆
-
+            // 10s后行星发动机建造动画，播放动画时没收摇杆,停止星球
+            StartCoroutine(CreateMotor());
             // 建造结束后播放点火动画（倒计时），去掉其他东西播放发射动画
             
             // 动画结束后切场景
         }
+    }
+    IEnumerator CreateMotor()
+    {
+        yield return new WaitForSeconds(10);
+        controler.SetActive(false);
+        rotateControl.earthAc=-rotateControl.earthS/10*Time.fixedDeltaTime;
+        //事件的添加
+
+        //
+        RegionControl region = regionControls[0];
+        region.changeRegionTo(Region.Motor);
+        rotateControl.removeControler = true;
+        yield return new WaitForSeconds(10);
+        rotateControl.enabled = false;
     }
     void FirstCity()
     {
@@ -514,10 +531,13 @@ public class Earth : MonoBehaviour
                 //优先找到不是陨石的地方建城市
                 if (region.region != Region.City && region.region!=Region.SeaCity)
                 {
-                    region1 = region;
-                    if(region1.region!=Region.ironGround)
+                    if(region.region != Region.Motor)
                     {
-                        break;
+                        region1 = region;
+                        if (region1.region != Region.ironGround)
+                        {
+                            break;
+                        }
                     }
                 }
             }

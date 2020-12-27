@@ -36,6 +36,8 @@ public class RotateControl : MonoBehaviour
     public bool startGame;
     public ControlMode controlMode;
     public int touchRange;
+
+    public bool removeControler;
     //一个变量，作为切换时
     public bool isSwitching;
     Touch touch;
@@ -70,48 +72,31 @@ public class RotateControl : MonoBehaviour
         FileInfo fi = new FileInfo(path + "//" + "record.txt");
         sw = fi.CreateText();
         recordTime = recordGap;
+        removeControler = false;
     }
     private void FixedUpdate()
-    {
-        //if(isSwitching)
-        //{
-        //    //earthAc = 0;
-        //    //earthS = 0;
-        //    //float earthAngle = Earth.earth.transform.rotation.eulerAngles.z;
-        //    //nowPos = center + new Vector2(100 * Mathf.Cos(earthAngle), 100 * Mathf.Sin(earthAngle));
-        //    //lastPos = nowPos;
-        //    isSwitching = false;
-        //}
-        //if (isTouching)
-        //{
-        //    float targetSpeed = angleSpeed / scale;
-        //    earthAc = (targetSpeed - earthS) * Time.deltaTime;
-        //}
-        float targetSpeed = angleSpeed / scale;
-        earthAc = (targetSpeed - earthS) * Time.deltaTime;
-        earthAc /= scale;
-        HandleMove();
-        EarthMove();
-        //if (controlMode == ControlMode.Normal)
-        //{
-        //    EarthMove();
-        //}
-        //else if (controlMode == ControlMode.Emergency)
-        //{
-        //    EarthMoveInEmergeny();
-        //}
-        if (Earth.earth.pol > 0)
+    {   
+        if(!removeControler)
         {
-            startGame = true;
-            tip.GetComponent<CloseAni>().Close();
+            float targetSpeed = angleSpeed / scale;
+            earthAc = (targetSpeed - earthS) * Time.deltaTime;
+            earthAc /= scale;
+            HandleMove();
+            if (Earth.earth.pol > 0)
+            {
+                startGame = true;
+                tip.GetComponent<CloseAni>().Close();
+            }
+
+            recordTime -= Time.fixedDeltaTime;
+            if (recordTime <= 0f)
+            {
+                sw.WriteLine(earthS);
+                recordTime = recordGap;
+            }
         }
 
-        recordTime -= Time.fixedDeltaTime;
-        if (recordTime <= 0f)
-        {
-            sw.WriteLine(earthS);
-            recordTime = recordGap;
-        }       
+        EarthMove();
     }
 
     private void OnDestroy()

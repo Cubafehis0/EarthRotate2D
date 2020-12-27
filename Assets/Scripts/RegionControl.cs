@@ -68,7 +68,7 @@ public class RegionControl : MonoBehaviour
         {
             case Region.Desert:
                 {
-                    sprite.sprite=regionSprite.desert;
+                    sprite.sprite = regionSprite.desert;
                     break;
                 }
             case Region.FlatGround:
@@ -78,22 +78,27 @@ public class RegionControl : MonoBehaviour
                 }
             case Region.Forest:
                 {
-                    sprite.sprite=regionSprite.forest;
+                    sprite.sprite = regionSprite.forest;
                     break;
                 }
             case Region.Sea:
                 {
-                    sprite.sprite=regionSprite.sea;
+                    sprite.sprite = regionSprite.sea;
                     break;
                 }
             case Region.SeaGround:
                 {
-                    sprite.sprite=regionSprite.seaGround;
+                    sprite.sprite = regionSprite.seaGround;
                     break;
                 }
             case Region.ironGround:
                 {
-                    sprite.sprite=regionSprite.ironGround;
+                    sprite.sprite = regionSprite.ironGround;
+                    break;
+                }
+            case Region.Motor:
+                {
+                    sprite.sprite = regionSprite.motor;
                     break;
                 }
         }
@@ -221,30 +226,46 @@ public class RegionControl : MonoBehaviour
 
     public void changeRegionTo(Region region)
     {
-        if(this.region==Region.City || this.region == Region.SeaCity)
+        if(region!=Region.Motor)
         {
-            if(region!=Region.City && region!=Region.SeaCity)
+            if (this.region == Region.City || this.region == Region.SeaCity)
             {
-                EventTip.eventTip.AddTips(Tip.CityDestory);
+                if (region != Region.City && region != Region.SeaCity)
+                {
+                    EventTip.eventTip.AddTips(Tip.CityDestory);
+                }
             }
+            if (this.region == Region.City)
+            {
+                if (region != Region.SeaCity)
+                {
+                    pol = 0;
+                    polF = 0;
+                    decreasePol = 0;
+                    decreasePolF = 0;
+                }
+                else
+                {
+                    polF = 0.7f * pol;
+                    // 人口减少
+                    pol = (int)polF;
+                }
+            }
+            this.region = region;
         }
-        if(this.region==Region.City)
+        else
         {
-            if(region!=Region.SeaCity)
+            this.region = Region.Motor;
+            sprite.sortingOrder = -10;
+            sprite.gameObject.transform.localPosition = new Vector3(-0.05f, -0.6f, 0);
+            Animator animator = GetComponentInChildren<Animator>();
+            Debug.Log(animator);
+            if(animator!=null)
             {
-                pol = 0;
-                polF = 0;
-                decreasePol = 0;
-                decreasePolF = 0;
+                animator.enabled = true;
             }
-            else
-            {
-                polF = 0.7f * pol;
-                // 人口减少
-                pol =(int)polF;
-            }
+
         }
-        this.region = region;
         LoadImage();
     }
     

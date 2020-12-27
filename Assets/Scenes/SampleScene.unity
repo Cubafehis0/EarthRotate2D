@@ -2601,6 +2601,7 @@ MonoBehaviour:
   startGame: 0
   controlMode: 0
   touchRange: 300
+  removeControler: 0
   isSwitching: 0
   recordGap: 0.2
   path: Assets/
@@ -2612,7 +2613,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651294328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 1.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2642,6 +2643,7 @@ MonoBehaviour:
   desert: {fileID: 21300000, guid: 22c8a5f9ec2a1784eb5525c256df6657, type: 3}
   forest: {fileID: 21300000, guid: 6efaed11d5e38874095cb2c54d7b8801, type: 3}
   ironGround: {fileID: 21300000, guid: 894ec38cacfecf34fb0706de82fd76e6, type: 3}
+  motor: {fileID: 21300000, guid: a748806b99bd5844fa4daa9d556274de, type: 3}
 --- !u!1 &986032506
 GameObject:
   m_ObjectHideFlags: 0
@@ -4613,7 +4615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1637495007
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5707,6 +5709,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   badEndSceneInd: 2
   goodEndSceneInd: 3
+  controler: {fileID: 1140520259}
   minS: 40
   maxS: 90
   occurTime: 1
@@ -5725,10 +5728,10 @@ MonoBehaviour:
   eraEvolutionNeedTime: 5
   tip: {fileID: 0}
   populationInc:
-  - 1.2
-  - 20
-  - 50
-  - 1000
+  - 2000
+  - 2000
+  - 20000
+  - 200000
   maxPopulationInEra: 140000002c010000e8030000a8610000
   maxCityNum: 0a0000000a0000000a0000000a000000
   eraTextContent:
@@ -5994,6 +5997,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2082987562}
     m_Modifications:
+    - target: {fileID: 1317269440656085432, guid: e9d6ee2dcce08474ca54636ee64a739b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.735
+      objectReference: {fileID: 0}
     - target: {fileID: 1927959503814586912, guid: e9d6ee2dcce08474ca54636ee64a739b,
         type: 3}
       propertyPath: m_Name
@@ -6054,6 +6062,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5722378441299794096, guid: e9d6ee2dcce08474ca54636ee64a739b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 41e8b8b0494b7104d89a5ec694565c8d,
+        type: 3}
+    - target: {fileID: 5722378441299794096, guid: e9d6ee2dcce08474ca54636ee64a739b,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4991104860629000574, guid: e9d6ee2dcce08474ca54636ee64a739b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e9d6ee2dcce08474ca54636ee64a739b, type: 3}
+--- !u!1 &1927959504874912660 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8785647771790741558, guid: e9d6ee2dcce08474ca54636ee64a739b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1927959504874912659}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1927959504874912661
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1927959504874912660}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 07f1e1a6cff9f624d9b9d636c42b74b6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

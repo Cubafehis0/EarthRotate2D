@@ -66,6 +66,8 @@ public class Earth : MonoBehaviour
     public Era era;
 
     EventTip eventTip;
+
+    public Animator PanelAnim;
     #endregion
     private void Awake()
     {
@@ -338,8 +340,9 @@ public class Earth : MonoBehaviour
             // 10s后行星发动机建造动画，播放动画时没收摇杆,停止星球
             StartCoroutine(CreateMotor());
             // 建造结束后播放点火动画（倒计时），去掉其他东西播放发射动画
-            
+
             // 动画结束后切场景
+            StartCoroutine(ChangeScene());
         }
     }
     IEnumerator CreateMotor()
@@ -356,6 +359,15 @@ public class Earth : MonoBehaviour
         yield return new WaitForSeconds(10);
         rotateControl.enabled = false;
     }
+
+    IEnumerator ChangeScene()
+    {
+        yield return new WaitForSeconds(20f);
+        PanelAnim.SetTrigger("end");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(goodEndSceneInd);
+    }
+
     void FirstCity()
     {
         if(!hasFirstCity)

@@ -4,7 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Emergency : MonoBehaviour
 {
+<<<<<<< Updated upstream
 
+=======
+    public LineRenderer warningLine;
+
+    public int ETHappenPop = 800;
+>>>>>>> Stashed changes
     Earth earth;
     // yunshi
     public bool hasEmergency;
@@ -100,6 +106,8 @@ public class Emergency : MonoBehaviour
             Vector3 position = new Vector2(yunShiMoveTime * yunShiSpeed * Mathf.Cos(dir), yunShiSpeed * yunShiMoveTime * Mathf.Sin(dir));
             yunShiTrans = Instantiate(yunShi, position + earth.transform.position, Quaternion.Euler(new Vector3(0, 0, dir / Mathf.PI * 180))).transform;
             yunshiDir = new Vector2(-Mathf.Cos(dir), -Mathf.Sin(dir));
+            warningLine.SetPosition(0, earth.transform.position);
+            warningLine.SetPosition(1, position + earth.transform.position);
         }
         else if (hasYunShi == true)
         {

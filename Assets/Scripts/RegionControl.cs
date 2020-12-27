@@ -156,8 +156,11 @@ public class RegionControl : MonoBehaviour
         }
 
         AddTip();
-        // 海洋淹没
-        Flood();
+        if(earth.era<Era.AtomicEra)
+        {
+            // 海洋淹没
+            Flood();
+        }
 
         // Sea Ground退潮
         Ebb();
@@ -261,6 +264,7 @@ public class RegionControl : MonoBehaviour
                     targetInd = ind + 1;
                 }
             }
+            Debug.Log(targetInd);
             Flood(targetInd);
         }
     }
@@ -271,7 +275,7 @@ public class RegionControl : MonoBehaviour
         int targetInd;
         if (ind == 0)
         {
-            targetInd = regionControls.Length - 1;
+            targetInd = 9;
         }
         else
         {
@@ -279,7 +283,7 @@ public class RegionControl : MonoBehaviour
         }
         Flood(targetInd);
 
-        if (ind == regionControls.Length - 1)
+        if (ind == 9)
         {
             targetInd = 0;
         }

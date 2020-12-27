@@ -19,6 +19,12 @@ public class TemperatureController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Earth.earth.era >= Era.AtomicEra)
+        {
+            sprite.color = normalColor;
+            return;
+        }
+
         if (Mathf.Abs(region.temperature) <= region.warningTemperature)
         {
             sprite.color = normalColor;

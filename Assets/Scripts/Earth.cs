@@ -323,6 +323,11 @@ public class Earth : MonoBehaviour
             }
         }
         populationText.text = pol.ToString();    
+        //人口超过221231
+        if(pol>221231)
+        {
+            EventTip.eventTip.AddTips(Tip.AbserveSunExplosion);
+        }
     }
     void FirstCity()
     {
@@ -436,6 +441,10 @@ public class Earth : MonoBehaviour
                             if (index == 2)
                             {
                                 region.nowAAG = region.InformationAAG;
+                            }
+                            else if (index == 3)
+                            {
+                                region.nowAAG = region.AtomicAAG;
                             }
 
                             region.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = regionSprite.citySprites[index];

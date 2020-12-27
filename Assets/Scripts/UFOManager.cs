@@ -29,6 +29,8 @@ public class UFOManager : MonoBehaviour
 
     public GameObject RaserAnim;
     Animator anim;
+
+    Animator ufoAnim;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +42,7 @@ public class UFOManager : MonoBehaviour
         anim = RaserAnim.GetComponent<Animator>();
         focusingTime = 0f;
         isFocusing = false;
+        ufoAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -229,5 +232,15 @@ public class UFOManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1.1f);
         AAG.SetActive(false);
+    }
+
+    public void Attacked()
+    {
+        if (!ufoAnim.enabled)
+        {
+            ufoAnim.enabled = true;
+            return;
+        }
+        ufoAnim.SetTrigger("attack");
     }
 }

@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bullet : MonoBehaviour
+public class trackBullet : MonoBehaviour
 {
     public float bulletSpeed = 1f;
-    public int AttckNum = 1;
-    // Start is called before the first frame update
-    void Start()
+    public int AttckNum = 10;
+    public float bulletReadyTime = 1.5f;
+    float readyTime;
+    UFOManager ufomanager;
+    Transform UFOTrans;
+    private void Start()
     {
-        
+        ufomanager = FindObjectOfType<UFOManager>();
+        UFOTrans = ufomanager.gameObject.transform;
+        readyTime = bulletReadyTime;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
-        transform.Translate(Vector2.up * bulletSpeed, Space.Self);
+        if (readyTime > 0f)
+        {
+            readyTime -= Time.fixedDeltaTime;
+            return;
+        }
+        transform.position = Vector3.Lerp(transform.position, UFOTrans.position, bulletSpeed * Time.fixedDeltaTime);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

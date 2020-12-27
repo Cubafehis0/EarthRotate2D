@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 4350489278391522709}
   - component: {fileID: 6422659882954855803}
   - component: {fileID: 7341251515954282247}
+  - component: {fileID: 2143076413019616125}
   m_Layer: 0
   m_Name: UFO
   m_TagString: UFO
@@ -220,7 +221,7 @@ MonoBehaviour:
   shootTime: 0.5
   RoundTime: 1
   FocusTime: 5
-  FocusDecresePercent: 0.5
+  FocusDecresePercent: 0.2
   animationTime: 1
   RaserAnim: {fileID: 6741695101091633736}
 --- !u!212 &3152384678904236745
@@ -338,6 +339,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!95 &2143076413019616125
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5118018325789878904}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f2f947591aed8a34fa63d6e2b470db5f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6741695101091633736
 GameObject:
   m_ObjectHideFlags: 0

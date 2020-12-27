@@ -37,7 +37,10 @@ public class Fire : MonoBehaviour
         }
         if (nowCD <= 0f)
         {
-            anim.SetTrigger("Fire");
+            if (anim != null)
+            {
+                anim.SetTrigger("Fire");
+            }
             Instantiate<GameObject>(bullet, bulletPos.position, bulletPos.rotation);
             nowCD = fireCD;
         }

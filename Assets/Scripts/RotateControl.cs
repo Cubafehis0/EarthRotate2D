@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 public class RotateControl : MonoBehaviour
 {
+    public GameObject tip;
+
     public GameObject handle;
     public Vector2 lastPos;
     public Vector2 nowPos;
@@ -44,6 +46,7 @@ public class RotateControl : MonoBehaviour
     private float recordTime;
     public string path = @"Assets/";
     StreamWriter sw;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -79,11 +82,13 @@ public class RotateControl : MonoBehaviour
         //    //lastPos = nowPos;
         //    isSwitching = false;
         //}
-        if (isTouching)
-        {
-            float targetSpeed = angleSpeed / scale;
-            earthAc = (targetSpeed - earthS) * Time.deltaTime;
-        }
+        //if (isTouching)
+        //{
+        //    float targetSpeed = angleSpeed / scale;
+        //    earthAc = (targetSpeed - earthS) * Time.deltaTime;
+        //}
+        float targetSpeed = angleSpeed / scale;
+        earthAc = (targetSpeed - earthS) * Time.deltaTime;
         earthAc /= scale;
         HandleMove();
         EarthMove();
@@ -95,9 +100,10 @@ public class RotateControl : MonoBehaviour
         //{
         //    EarthMoveInEmergeny();
         //}
-        if (Mathf.Abs(earthS) > 10f)
+        if (Earth.earth.pol > 0)
         {
             startGame = true;
+            tip.GetComponent<CloseAni>().Close();
         }
 
         recordTime -= Time.fixedDeltaTime;

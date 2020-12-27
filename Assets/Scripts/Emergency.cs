@@ -4,13 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Emergency : MonoBehaviour
 {
-<<<<<<< Updated upstream
 
-=======
     public LineRenderer warningLine;
 
     public int ETHappenPop = 800;
->>>>>>> Stashed changes
     Earth earth;
     // yunshi
     public bool hasEmergency;
@@ -163,7 +160,7 @@ public class Emergency : MonoBehaviour
         if (!hasET && nowETInterval <= 0f)
         {
             float range = Random.value * ETProbability;
-            if (range > 0 && range < 1)
+            if (range > 0 && range < 1 || earth.pol >= ETHappenPop)
             {
                 EventTip.eventTip.AddTips(Tip.ETCome);
                 hasET = true;

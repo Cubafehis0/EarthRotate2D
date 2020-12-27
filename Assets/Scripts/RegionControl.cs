@@ -12,6 +12,8 @@ public class RegionControl : MonoBehaviour
     public float nowMineTime;
     [Tooltip("异常加速度")]
     public float abnormalAc;
+    [Tooltip("温度颜色变化提示温度")]
+    public float warningTemperature = 10f;
     [Tooltip("异常温度值")]
     public float abnormalTemperature;
     [Tooltip("异常温度值改变状态需要的累计时间")]
@@ -42,6 +44,7 @@ public class RegionControl : MonoBehaviour
     RegionSprite regionSprite;
     public GameObject IndustryAAG;
     public GameObject InformationAAG;
+    public GameObject AtomicAAG;
     public GameObject nowAAG;
     public int nowCityLevel;
     // Start is called before the first frame update
@@ -207,6 +210,13 @@ public class RegionControl : MonoBehaviour
 
     public void changeRegionTo(Region region)
     {
+        if(this.region==Region.City || this.region == Region.SeaCity)
+        {
+            if(region!=Region.City && region!=Region.SeaCity)
+            {
+                EventTip.eventTip.AddTips(Tip.CityDestory);
+            }
+        }
         if(this.region==Region.City)
         {
             if(region!=Region.SeaCity)
@@ -264,7 +274,6 @@ public class RegionControl : MonoBehaviour
                     targetInd = ind + 1;
                 }
             }
-            Debug.Log(targetInd);
             Flood(targetInd);
         }
     }
@@ -339,15 +348,23 @@ public class RegionControl : MonoBehaviour
     }
     private void Mine()
     {
-        if (region == Region.ironGround)
-        { 
-            nowMineTime -= Time.fixedDeltaTime;
-            if (nowMineTime <= 0f)
-            {
-                changeRegionTo(Region.FlatGround);
-                alternator.SetActive(true);
+        if(earth.era>=Era.IndutrialEra)
+        {
+            if (region == Region.ironGround)
+            { 
+                nowMineTime -= Time.fixedDeltaTime;
+                if (nowMineTime <= 0f)
+                {
+                    nowMineTime -= Time.fixedDeltaTime;
+                    if (nowMineTime <= 0f)
+                    {
+                        changeRegionTo(Region.FlatGround);
+                        alternator.SetActive(true);
+                    }
+                }
             }
         }
+        
     }
     public void SetAlternatorActive(bool active)
     {

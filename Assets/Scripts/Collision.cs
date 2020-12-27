@@ -35,6 +35,8 @@ public class Collision : MonoBehaviour
 
 
             }
+            emergency.warningLine.SetPosition(0, Vector3.zero);
+            emergency.warningLine.SetPosition(1, Vector3.zero);
             emergency.hasEmergency = false;
             emergency.hasYunShi = false;
             Destroy(gameObject);

@@ -131,7 +131,7 @@ MonoBehaviour:
   alternator: {fileID: 2587506004875235770}
   IndustryAAG: {fileID: 8615544278960095434}
   InformationAAG: {fileID: 7589138900800280104}
-  AtomicAAG: {fileID: 0}
+  AtomicAAG: {fileID: 4786357461261417446}
   nowAAG: {fileID: 0}
   nowCityLevel: 0
 --- !u!50 &7293814602633721274
@@ -354,6 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8529255236273803842}
   - component: {fileID: 2005137259565075317}
+  - component: {fileID: 1669682942690625549}
   m_Layer: 0
   m_Name: Atomic
   m_TagString: Untagged
@@ -391,6 +392,25 @@ MonoBehaviour:
   bullet: {fileID: 365215025410265107, guid: 44be4c4ce364d1b45abe50619ac26587, type: 3}
   bulletPos: {fileID: 4625090249324227381}
   fireCD: 2
+--- !u!95 &1669682942690625549
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4786357461261417446}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e8b81a79841816848b3067f02e544253, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5605206773154421700
 GameObject:
   m_ObjectHideFlags: 0

@@ -4616,7 +4616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1637495007
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5742,6 +5742,7 @@ MonoBehaviour:
   - "\u539F\u5B50\u65F6\u4EE3"
   regionControls: []
   era: 0
+  PanelAnim: {fileID: 0}
 --- !u!1 &2091060952
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,8 +23,15 @@ public class ReturnTitle : MonoBehaviour
         {
             if (Input.anyKeyDown)
             {
-                SceneManager.LoadScene(0);
+                Debug.Log("hi");
+                StartCoroutine(Close());
             }
         }
+    }
+    IEnumerator Close()
+    {
+        GetComponent<Animator>().SetTrigger("end");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(0);
     }
 }

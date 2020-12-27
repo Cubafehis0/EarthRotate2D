@@ -1251,7 +1251,7 @@ GameObject:
   - component: {fileID: 457155866}
   m_Layer: 0
   m_Name: bottom
-  m_TagString: Untagged
+  m_TagString: Bounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4381,7 +4381,7 @@ GameObject:
   - component: {fileID: 1590132516}
   m_Layer: 0
   m_Name: top
-  m_TagString: Untagged
+  m_TagString: Bounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4647,7 +4647,7 @@ GameObject:
   - component: {fileID: 1636405870}
   m_Layer: 0
   m_Name: AirBounds
-  m_TagString: Untagged
+  m_TagString: Bounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5581,7 +5581,7 @@ GameObject:
   - component: {fileID: 2091060955}
   m_Layer: 0
   m_Name: right
-  m_TagString: Untagged
+  m_TagString: Bounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

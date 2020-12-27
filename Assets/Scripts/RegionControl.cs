@@ -12,6 +12,8 @@ public class RegionControl : MonoBehaviour
     public float nowMineTime;
     [Tooltip("异常加速度")]
     public float abnormalAc;
+    [Tooltip("温度颜色变化提示温度")]
+    public float warningTemperature = 10f;
     [Tooltip("异常温度值")]
     public float abnormalTemperature;
     [Tooltip("异常温度值改变状态需要的累计时间")]
@@ -316,15 +318,19 @@ public class RegionControl : MonoBehaviour
     }
     private void Mine()
     {
-        if (region == Region.ironGround)
+        if(earth.era>=Era.IndutrialEra)
         {
-            nowMineTime -= Time.fixedDeltaTime;
-            if (nowMineTime <= 0f)
+            if (region == Region.ironGround)
             {
-                changeRegionTo(Region.FlatGround);
-                alternator.SetActive(true);
+                nowMineTime -= Time.fixedDeltaTime;
+                if (nowMineTime <= 0f)
+                {
+                    changeRegionTo(Region.FlatGround);
+                    alternator.SetActive(true);
+                }
             }
         }
+        
     }
     public void SetAlternatorActive(bool active)
     {

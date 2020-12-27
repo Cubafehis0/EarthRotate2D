@@ -215,7 +215,7 @@ public class UFOManager : MonoBehaviour
         EmergencyInstance.hasEmergency = false;
         EmergencyInstance.hasET = false;
         EmergencyInstance.nowETInterval = EmergencyInstance.ETInterval;
-
+        EventTip.eventTip.AddTips(Tip.DefeatET);
         //  收炮
         foreach (var region in Earth.earth.regionControls)
         {

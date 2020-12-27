@@ -157,7 +157,7 @@ public class RegionControl : MonoBehaviour
             }
         }
 
-
+        AddTip();
         // 海洋淹没
         Flood();
 
@@ -167,7 +167,17 @@ public class RegionControl : MonoBehaviour
         //ironGround 开采陨石建设风力发电机
         Mine();
     }
-
+    void AddTip()
+    {
+        if(temperature>10)
+        {
+            EventTip.eventTip.AddTips(global::Tip.HeatWave);
+        }
+        else if(temperature<-10)
+        {
+            EventTip.eventTip.AddTips(global::Tip.ClodWave);
+        }
+    }
     public bool isUnderSunshine()
     {
         if (transform.rotation.eulerAngles.z >= 45f && transform.rotation.eulerAngles.z < 225f)
@@ -220,6 +230,14 @@ public class RegionControl : MonoBehaviour
     {
         if (region == Region.Sea && Mathf.Abs(rotateControlInstance.earthAc) > abnormalAc)
         {
+            if(rotateControlInstance.earthAc * rotateControlInstance.earthS> 0)
+            {
+                EventTip.eventTip.AddTips(Tip.QuickAcc);
+            }
+            else if(rotateControlInstance.earthAc*rotateControlInstance.earthS<0)
+            {
+                EventTip.eventTip.AddTips(Tip.QuickPause);
+            }
             RegionControl[] regionControls = transform.parent.GetComponentsInChildren<RegionControl>();
             int ind = transform.GetSiblingIndex();
             int targetInd;
@@ -278,6 +296,7 @@ public class RegionControl : MonoBehaviour
 
     public void Flood(int targetInd)
     {
+        EventTip.eventTip.AddTips(Tip.Tsunami);
         RegionControl[] regionControls = transform.parent.GetComponentsInChildren<RegionControl>();
         if(regionControls[targetInd].region!=Region.Sea)
         {
@@ -321,12 +340,16 @@ public class RegionControl : MonoBehaviour
         if(earth.era>=Era.IndutrialEra)
         {
             if (region == Region.ironGround)
-            {
+            { 
                 nowMineTime -= Time.fixedDeltaTime;
                 if (nowMineTime <= 0f)
                 {
-                    changeRegionTo(Region.FlatGround);
-                    alternator.SetActive(true);
+                    nowMineTime -= Time.fixedDeltaTime;
+                    if (nowMineTime <= 0f)
+                    {
+                        changeRegionTo(Region.FlatGround);
+                        alternator.SetActive(true);
+                    }
                 }
             }
         }

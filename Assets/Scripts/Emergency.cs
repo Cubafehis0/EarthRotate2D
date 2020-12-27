@@ -93,6 +93,7 @@ public class Emergency : MonoBehaviour
         yunShiTimeSinceLast += Time.deltaTime;
         if(yunShiTimeSinceLast>yunShiNeedTime)
         {
+            EventTip.eventTip.AddTips(Tip.Meteorite);
             yunShiTimeSinceLast = 0;
             hasYunShi = true;
             float dir = Random.Range(0, 2 * Mathf.PI);
@@ -156,6 +157,7 @@ public class Emergency : MonoBehaviour
             float range = Random.value * ETProbability;
             if (range > 0 && range < 1 || earth.pol >= ETHappenPop)
             {
+                EventTip.eventTip.AddTips(Tip.ETCome);
                 hasET = true;
                 hasEmergency = true;
                 float dir = Random.Range(0, 2 * Mathf.PI);

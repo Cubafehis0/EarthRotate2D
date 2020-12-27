@@ -9,7 +9,7 @@ public class RaserAttck : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 raserDir = (Vector3.zero - transform.position).normalized;
+        Vector3 raserDir = (Earth.earth.transform.position - transform.position).normalized;
         transform.Translate(raserDir * RaserSpeed * Time.fixedDeltaTime, Space.World);
     }
     private void OnCollisionEnter2D(Collision2D collision)

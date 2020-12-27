@@ -68,6 +68,8 @@ public class Earth : MonoBehaviour
     EventTip eventTip;
 
     public Animator PanelAnim;
+    public GameObject dayPic;
+    public GameObject daojishiAnim;
     #endregion
     private void Awake()
     {
@@ -336,13 +338,12 @@ public class Earth : MonoBehaviour
         {
             isGoodEnd = true;
             EventTip.eventTip.AddTips(Tip.AbserveSunExplosion);
-
+            dayPic.SetActive(false);
             // 10s后行星发动机建造动画，播放动画时没收摇杆,停止星球
             StartCoroutine(CreateMotor());
             // 建造结束后播放点火动画（倒计时），去掉其他东西播放发射动画
 
             // 动画结束后切场景
-            StartCoroutine(ChangeScene());
         }
     }
     IEnumerator CreateMotor()
@@ -358,15 +359,22 @@ public class Earth : MonoBehaviour
         rotateControl.removeControler = true;
         yield return new WaitForSeconds(10);
         rotateControl.enabled = false;
-    }
 
-    IEnumerator ChangeScene()
-    {
-        yield return new WaitForSeconds(20f);
+        // 倒计时动画
+        daojishiAnim.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        daojishiAnim.SetActive(false);
+        region.particle.SetActive(true);
+        region.particle.GetComponent<ParticleSystem>().startRotation = 180f + region.particle.transform.rotation.z;
+
+        // 切场景
+        yield return new WaitForSeconds(5f);
         PanelAnim.SetTrigger("end");
         yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(goodEndSceneInd);
+
     }
+
 
     void FirstCity()
     {

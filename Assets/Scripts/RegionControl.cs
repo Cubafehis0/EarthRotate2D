@@ -47,6 +47,8 @@ public class RegionControl : MonoBehaviour
     public GameObject AtomicAAG;
     public GameObject nowAAG;
     public int nowCityLevel;
+
+    public GameObject particle;
     // Start is called before the first frame update
     void Start()
     {
@@ -59,7 +61,11 @@ public class RegionControl : MonoBehaviour
         rotateControlInstance = RotateControl.rotateControlInstance;
         nowEbbTime = 0f;
         LoadImage();
-
+        if(GetComponentInChildren<ParticleSystem>(true) != null)
+        {
+            particle = GetComponentInChildren<ParticleSystem>(true).gameObject;
+        }
+        
     }
 
     void LoadImage()

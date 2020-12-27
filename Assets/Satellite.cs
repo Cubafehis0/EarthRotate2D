@@ -30,6 +30,7 @@ public class Satellite : MonoBehaviour
         {
             Instantiate(Barrier,Earth.earth.transform);
             isOpenBarrier = true;
+            EventTip.eventTip.AddTips(Tip.DefenseMeteorite);
         }
     }
     // Update is called once per frame

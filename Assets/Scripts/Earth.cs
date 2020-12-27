@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Earth : MonoBehaviour
 {
+    #region("成员变量")
     public static Earth earth;
     public float minS;
     public float maxS;
@@ -58,6 +59,9 @@ public class Earth : MonoBehaviour
     public RegionControl[] regionControls;
     //完成时代化后，科技时代发生进化，科技时代不会发生变化
     public Era era;
+
+    EventTip eventTip;
+    #endregion
     private void Awake()
     {
         if(earth!=null)
@@ -70,6 +74,7 @@ public class Earth : MonoBehaviour
     void Start()
     {
         rotateControl = RotateControl.rotateControlInstance;
+        eventTip = EventTip.eventTip;
         regionControls = GetComponentsInChildren<RegionControl>();
         hasFirstCity = false;
         endGame = false;
@@ -333,6 +338,7 @@ public class Earth : MonoBehaviour
             }
             if (firstCityTime > occurTime)
             {
+                eventTip.AddTips(Tip.PeopleBorn);
                 if(NewCity())
                 {
                     SwitchEra(Era.AgricultureEra);
@@ -344,6 +350,34 @@ public class Earth : MonoBehaviour
     }
     void SwitchEra(Era era)
     {
+        switch (era)
+        {
+            case Era.AgricultureEra:
+                {
+                    eventTip.AddTips(Tip.AgriclutureEra);
+                    break;
+                }
+            case Era.IndutrialEra:
+                {
+                    eventTip.AddTips(Tip.IndutrialEra);
+                    eventTip.AddTips(Tip.DefenseWeapon);
+                    break;
+                }
+            case Era.InformationEra:
+                {
+                    eventTip.AddTips(Tip.InformationEra);
+                    eventTip.AddTips(Tip.DefenseTsunami);
+                    break;
+                }
+            case Era.AtomicEra:
+                {
+                    eventTip.AddTips(Tip.AtomicEra);
+                    eventTip.AddTips(Tip.DefenseMeteorite);
+                    break;
+                }
+
+        }
+        
         this.era = era;
         maxPopulation = maxPopulationInEra[(int)era];
         maxCity = maxCityNum[(int)era];
@@ -473,6 +507,7 @@ public class Earth : MonoBehaviour
         {
             return false;
         }
+        eventTip.AddTips(Tip.NewCity);
         SpriteRenderer renderer = region1.GetComponentInChildren<SpriteRenderer>();
         renderer.sprite = regionSprite.citySprites[0];
         region1.region = Region.City;

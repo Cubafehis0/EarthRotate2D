@@ -323,6 +323,11 @@ public class Earth : MonoBehaviour
             }
         }
         populationText.text = pol.ToString();    
+        //人口超过221231
+        if(pol>221231)
+        {
+            EventTip.eventTip.AddTips(Tip.AbserveSunExplosion);
+        }
     }
     void FirstCity()
     {

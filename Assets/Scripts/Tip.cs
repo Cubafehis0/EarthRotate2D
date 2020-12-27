@@ -24,5 +24,7 @@ public enum Tip
     HeatWave,
     QuickAcc,
     Meteorite,
-    AtomicEra
+    AtomicEra,
+    CityDestory,
+    AbserveSunExplosion
 }

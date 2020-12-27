@@ -210,6 +210,13 @@ public class RegionControl : MonoBehaviour
 
     public void changeRegionTo(Region region)
     {
+        if(this.region==Region.City || this.region == Region.SeaCity)
+        {
+            if(region!=Region.City && region!=Region.SeaCity)
+            {
+                EventTip.eventTip.AddTips(Tip.CityDestory);
+            }
+        }
         if(this.region==Region.City)
         {
             if(region!=Region.SeaCity)
@@ -267,7 +274,6 @@ public class RegionControl : MonoBehaviour
                     targetInd = ind + 1;
                 }
             }
-            Debug.Log(targetInd);
             Flood(targetInd);
         }
     }

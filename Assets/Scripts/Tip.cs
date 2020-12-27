@@ -26,5 +26,6 @@ public enum Tip
     Meteorite,
     AtomicEra,
     CityDestory,
-    AbserveSunExplosion
+    AbserveSunExplosion,
+    BuildMotor
 }

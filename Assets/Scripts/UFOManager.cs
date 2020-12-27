@@ -170,7 +170,7 @@ public class UFOManager : MonoBehaviour
         {
             focusingTime = 0f;
             RaycastHit2D hit;
-            hit = Physics2D.Raycast(transform.position, Vector3.zero - transform.position, UFOHeight, 1 << LayerMask.NameToLayer("Region"));
+            hit = Physics2D.Raycast(transform.position, Earth.earth.transform.position - transform.position, UFOHeight, 1 << LayerMask.NameToLayer("Region"));
             if (hit.collider != null)
             {
                 RegionControl region = hit.collider.gameObject.GetComponent<RegionControl>();

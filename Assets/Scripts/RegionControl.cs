@@ -149,11 +149,22 @@ public class RegionControl : MonoBehaviour
             // 温度过高一律变成沙漠
             if (temperatureToohighTime >= changeTime)
             {
+                if (nowAAG != null)
+                {
+                    nowAAG.SetActive(false);
+                    nowAAG = null;
+                }
+
                 changeRegionTo(Region.Desert);
             }
             // 温度过低，海洋和Sea Ground不变沙漠
             if (temperatureToolowTime >= changeTime && region != Region.Sea && region != Region.SeaGround)
             {
+                if (nowAAG != null)
+                {
+                    nowAAG.SetActive(false);
+                    nowAAG = null;
+                }
                 changeRegionTo(Region.Desert);
             }
         }

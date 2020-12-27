@@ -48,7 +48,7 @@ public class Earth : MonoBehaviour
     Text tip;
 
     [SerializeField]
-    int[] populationInc;
+    float[] populationInc;
     [SerializeField]
     int[] maxPopulationInEra;
     [SerializeField]
@@ -171,7 +171,7 @@ public class Earth : MonoBehaviour
         if(eraHasEvolutionTime>eraEvolutionNeedTime)
         {
             eraHasEvolutionTime = 0;
-            tip.text = null;
+            // tip.text = null;
             //hasFinishEra[(int)era+1] = true;
             SwitchEra((Era)((int)era+1));
         }
@@ -331,6 +331,12 @@ public class Earth : MonoBehaviour
         if(pol>221231)
         {
             EventTip.eventTip.AddTips(Tip.AbserveSunExplosion);
+
+            // 10s后行星发动机建造动画，播放动画时没收摇杆
+
+            // 建造结束后播放点火动画（倒计时），去掉其他东西播放发射动画
+            
+            // 动画结束后切场景
         }
     }
     void FirstCity()

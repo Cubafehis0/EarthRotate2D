@@ -113,7 +113,7 @@ MonoBehaviour:
   ebbTime: 3
   mineTime: 10
   nowMineTime: 0
-  abnormalAc: 1
+  abnormalAc: 1.3
   warningTemperature: 1
   abnormalTemperature: 15
   changeTime: 3

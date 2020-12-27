@@ -23,7 +23,15 @@ public class trackBullet : MonoBehaviour
             readyTime -= Time.fixedDeltaTime;
             return;
         }
-        transform.position = Vector3.Lerp(transform.position, UFOTrans.position, bulletSpeed * Time.fixedDeltaTime);
+        if (UFOTrans != null)
+        {
+            transform.position = Vector3.Lerp(transform.position, UFOTrans.position, bulletSpeed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            Destroy(gameObject.transform.parent.gameObject);
+        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -38,11 +46,11 @@ public class trackBullet : MonoBehaviour
                 ufo.Attacked();
 
 
-                Destroy(gameObject);
+                Destroy(gameObject.transform.parent.gameObject);
             }
             else if (collision.collider.tag == "Bounds")
             {
-                Destroy(gameObject);
+                Destroy(gameObject.transform.parent.gameObject);
             }
         }
     }

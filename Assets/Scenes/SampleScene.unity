@@ -1482,14 +1482,14 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 0, b: 0, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 0, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 65535
+      ctime0: 0
       ctime1: 65535
       ctime2: 0
       ctime3: 0
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   ETProbability: 10000
   ETWarningTime: 0
   UFO: {fileID: 5118018325789878904, guid: a9037ac4eda1a014cb1c395ebc32cef8, type: 3}
-  ETInterval: 150
+  ETInterval: 100
   nowETInterval: 0
   defenseBarrier: {fileID: 2228878039888273410, guid: f1ac5301802f47e47a462b14b53ad1ec,
     type: 3}
@@ -5705,6 +5705,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f229141a647fbfe4cac0ee32aeb256e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  badEndSceneInd: 2
+  goodEndSceneInd: 3
   minS: 40
   maxS: 90
   occurTime: 1
@@ -5722,8 +5724,12 @@ MonoBehaviour:
   hasFinishEraTask: 00000000
   eraEvolutionNeedTime: 5
   tip: {fileID: 0}
-  populationInc: 010000001400000032000000e8030000
-  maxPopulationInEra: 140000002c010000e803000010270000
+  populationInc:
+  - 1.2
+  - 20
+  - 50
+  - 1000
+  maxPopulationInEra: 140000002c010000e8030000a8610000
   maxCityNum: 0a0000000a0000000a0000000a000000
   eraTextContent:
   - "\u519C\u4E1A\u65F6\u4EE3"

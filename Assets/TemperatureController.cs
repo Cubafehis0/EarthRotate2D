@@ -19,18 +19,18 @@ public class TemperatureController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Mathf.Abs(region.temperature) <= region.abnormalTemperature)
+        if (Mathf.Abs(region.temperature) <= region.warningTemperature)
         {
             sprite.color = normalColor;
         }
         else if(region.temperature > 0f)
         {
-            float t = (region.temperature - region.abnormalTemperature) / (region.maxTemperature - region.abnormalTemperature);
+            float t = (region.temperature - region.warningTemperature) / (region.maxTemperature - region.warningTemperature);
             sprite.color = Color.Lerp(normalColor, hotColor, t);
         }
         else
         {
-            float t = (-region.abnormalTemperature - region.temperature) / (region.maxTemperature - region.abnormalTemperature);
+            float t = (-region.warningTemperature - region.temperature) / (region.maxTemperature - region.warningTemperature);
             sprite.color = Color.Lerp(normalColor, coldColor, t);
         }
     }

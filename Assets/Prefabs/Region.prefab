@@ -115,7 +115,7 @@ MonoBehaviour:
   abnormalAc: 1
   abnormalTemperature: 15
   changeTime: 3
-  maxTemperature: 18
+  maxTemperature: 16
   temperatureUpRatio: 1
   initTemperature: 0
   temperature: 0
@@ -494,7 +494,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 1a9b108105b1cf0478ad278f1f1ebcd4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -516,9 +516,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0926e8f1ca8b33846bc0bd2da483c019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotColor: {r: 0, g: 0, b: 0, a: 0}
-  coldColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 1, g: 1, b: 1, a: 0}
+  hotColor: {r: 0.6862745, g: 0, b: 0, a: 0.53333336}
+  coldColor: {r: 0, g: 0, b: 0.49803922, a: 0.48235294}
+  normalColor: {r: 1, g: 1, b: 1, a: 0.09803922}
 --- !u!1 &7589138900800280104
 GameObject:
   m_ObjectHideFlags: 0

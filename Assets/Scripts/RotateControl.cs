@@ -44,6 +44,7 @@ public class RotateControl : MonoBehaviour
     private float recordTime;
     public string path = @"Assets/";
     StreamWriter sw;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -95,7 +96,7 @@ public class RotateControl : MonoBehaviour
         //{
         //    EarthMoveInEmergeny();
         //}
-        if (Mathf.Abs(earthS) > 10f)
+        if (Earth.earth.pol > 0)
         {
             startGame = true;
         }

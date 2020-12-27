@@ -437,6 +437,10 @@ public class Earth : MonoBehaviour
                             {
                                 region.nowAAG = region.InformationAAG;
                             }
+                            else if (index == 3)
+                            {
+                                region.nowAAG = region.AtomicAAG;
+                            }
 
                             region.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = regionSprite.citySprites[index];
                         }

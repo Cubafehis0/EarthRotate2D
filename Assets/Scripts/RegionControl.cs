@@ -44,6 +44,7 @@ public class RegionControl : MonoBehaviour
     RegionSprite regionSprite;
     public GameObject IndustryAAG;
     public GameObject InformationAAG;
+    public GameObject AtomicAAG;
     public GameObject nowAAG;
     public int nowCityLevel;
     // Start is called before the first frame update

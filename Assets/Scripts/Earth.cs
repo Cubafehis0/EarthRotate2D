@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class Earth : MonoBehaviour
 {
     #region("成员变量")
+    public int badEndSceneInd = 2;
+    public int goodEndSceneInd = 3;
     public static Earth earth;
     public float minS;
     public float maxS;
@@ -314,6 +317,7 @@ public class Earth : MonoBehaviour
         if (cityCnt == 0)
         {
             endGame = true;
+            SceneManager.LoadScene(badEndSceneInd);
         }
         else if (isNeedNewCity)
         {

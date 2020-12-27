@@ -1747,7 +1747,7 @@ MonoBehaviour:
   ETProbability: 10000
   ETWarningTime: 0
   UFO: {fileID: 5118018325789878904, guid: a9037ac4eda1a014cb1c395ebc32cef8, type: 3}
-  ETInterval: 150
+  ETInterval: 100
   nowETInterval: 0
   defenseBarrier: {fileID: 2228878039888273410, guid: f1ac5301802f47e47a462b14b53ad1ec,
     type: 3}
@@ -5541,6 +5541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f229141a647fbfe4cac0ee32aeb256e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  badEndSceneInd: 2
+  goodEndSceneInd: 3
   minS: 40
   maxS: 90
   occurTime: 1

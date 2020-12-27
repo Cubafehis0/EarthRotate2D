@@ -219,9 +219,9 @@ MonoBehaviour:
   Raser: {fileID: 3455184667508293168, guid: 3b860e2f6a1c8c94382d5437e8068226, type: 3}
   RaserTrans: {fileID: 2457424940649691736}
   shootTime: 0.5
-  RoundTime: 1
+  RoundTime: 2
   FocusTime: 5
-  FocusDecresePercent: 0.2
+  FocusDecresePercent: 0.1
   animationTime: 1
   RaserAnim: {fileID: 6741695101091633736}
 --- !u!212 &3152384678904236745

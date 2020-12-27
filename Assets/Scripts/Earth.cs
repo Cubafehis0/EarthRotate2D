@@ -134,7 +134,8 @@ public class Earth : MonoBehaviour
                     }                    
                 }
             }
-            if(cnt>=3)
+            //信息化城市超过4个进入原子化时代
+            if(cnt>=4)
             {
                 hasFinishEraTask[2] = true;
             }

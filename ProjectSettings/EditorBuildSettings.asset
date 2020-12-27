@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/goodEnd.unity
     guid: b3ff6891ab057c3488de534473f00fad
+  - enabled: 1
+    path: Assets/Scenes/ProducerList.unity
+    guid: bb353e36d22b1c3428c9c7fe217692c6
   m_configObjects: {}

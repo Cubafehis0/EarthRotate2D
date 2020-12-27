@@ -32,6 +32,13 @@ public class ReturnTitle : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("end");
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(0);
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
+        }
     }
 }

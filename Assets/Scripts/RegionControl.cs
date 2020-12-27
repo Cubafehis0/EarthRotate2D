@@ -126,6 +126,11 @@ public class RegionControl : MonoBehaviour
         {
             if (region == Region.City && isReachDestoryTemp())
             {
+                if (nowAAG != null)
+                {
+                    nowAAG.SetActive(false);
+                    nowAAG = null;
+                }
                 changeRegionTo(Region.Desert);
             }
         }
@@ -165,7 +170,6 @@ public class RegionControl : MonoBehaviour
                     nowAAG.SetActive(false);
                     nowAAG = null;
                 }
-
                 changeRegionTo(Region.Desert);
             }
             // 温度过低，海洋和Sea Ground不变沙漠
@@ -176,6 +180,8 @@ public class RegionControl : MonoBehaviour
                     nowAAG.SetActive(false);
                     nowAAG = null;
                 }
+                
+                
                 changeRegionTo(Region.Desert);
             }
         }

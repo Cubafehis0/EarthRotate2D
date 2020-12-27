@@ -121,4 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c940812620503498e3d2758eafa1f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  populationDecreasePercent: 0.6
+  populationDecreasePercent: 0.3
+  RaserSpeed: 5

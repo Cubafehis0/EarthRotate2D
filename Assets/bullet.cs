@@ -35,11 +35,11 @@ public class bullet : MonoBehaviour
                 ufo.Attacked();
 
 
-                Destroy(gameObject);
+                Destroy(gameObject.transform.parent.gameObject);
             }
             else if (collision.collider.tag == "Bounds")
             {
-                Destroy(gameObject);
+                Destroy(gameObject.transform.parent.gameObject);
             }
         }
     }

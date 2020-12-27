@@ -35,7 +35,7 @@ public class UFOManager : MonoBehaviour
     void Start()
     {
         EmergencyInstance = Emergency.emergency;
-        desPos = transform.position.normalized * UFOHeight;
+        desPos = Earth.earth.transform.position + transform.position.normalized * UFOHeight;
         initMove = true;
         nowMoveTime = RoundTime;
         moveType = UFOMoveType.Round;
@@ -121,6 +121,7 @@ public class UFOManager : MonoBehaviour
                 transform.Rotate(Vector3.forward, RoundSpeed * Time.deltaTime, Space.World);
                 float theta = transform.rotation.eulerAngles.z;
                 transform.position = new Vector3(-UFOHeight * Mathf.Sin(theta * Mathf.Deg2Rad), UFOHeight * Mathf.Cos(theta * Mathf.Deg2Rad), 0f);
+                transform.position += Earth.earth.transform.position;
                 break;
             case UFOMoveType.Focus:
                 Focus();

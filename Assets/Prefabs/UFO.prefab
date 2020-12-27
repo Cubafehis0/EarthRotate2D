@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0008cd92a4024894b9ebaf623ff804a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UFOHeight: 2.5
+  UFOHeight: 2
   HP: 20
   RoundSpeed: 30
   Raser: {fileID: 3455184667508293168, guid: 3b860e2f6a1c8c94382d5437e8068226, type: 3}

@@ -180,6 +180,6 @@ public class Emergency : MonoBehaviour
         nowETWarningTime = ETWarningTime;
         yield return new WaitForSeconds(ETWarningTime);
         isWarning = false;
-        Instantiate<GameObject>(UFO, position, Quaternion.Euler(0, 0, dir * Mathf.Rad2Deg - 90f));
+        Instantiate<GameObject>(UFO, position + earth.gameObject.transform.position, Quaternion.Euler(0, 0, dir * Mathf.Rad2Deg - 90f));
     }
 }

@@ -82,6 +82,7 @@ public class RotateControl : MonoBehaviour
             earthAc = (targetSpeed - earthS) * Time.deltaTime;
             earthAc /= scale;
             HandleMove();
+            EarthMove();
             if (Earth.earth.pol > 0)
             {
                 startGame = true;
@@ -95,8 +96,10 @@ public class RotateControl : MonoBehaviour
                 recordTime = recordGap;
             }
         }
-
-        EarthMove();
+        else
+        {
+            Rotate2Zero();
+        }
     }
 
     private void OnDestroy()
@@ -120,6 +123,12 @@ public class RotateControl : MonoBehaviour
             }
         }
     }
+
+    public void Rotate2Zero()
+    {
+        earth.transform.rotation = Quaternion.Lerp(earth.transform.rotation, Quaternion.identity, 1f * Time.fixedDeltaTime);
+    }
+
     void EarthMove()
     {
         earthS += earthAc;

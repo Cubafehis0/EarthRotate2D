@@ -70,6 +70,7 @@ public class Earth : MonoBehaviour
     public Animator PanelAnim;
     public GameObject dayPic;
     public GameObject daojishiAnim;
+    public GameObject daojishiText;
     #endregion
     private void Awake()
     {
@@ -352,7 +353,7 @@ public class Earth : MonoBehaviour
         controler.SetActive(false);
         rotateControl.earthAc=-rotateControl.earthS/10*Time.fixedDeltaTime;
         //事件的添加
-
+        EventTip.eventTip.AddTips(Tip.BuildMotor);
         //
         RegionControl region = regionControls[0];
         region.changeRegionTo(Region.Motor);
@@ -362,10 +363,11 @@ public class Earth : MonoBehaviour
 
         // 倒计时动画
         daojishiAnim.SetActive(true);
+        daojishiText.SetActive(true);
         yield return new WaitForSeconds(5f);
         daojishiAnim.SetActive(false);
+        daojishiText.SetActive(false);
         region.particle.SetActive(true);
-        region.particle.GetComponent<ParticleSystem>().startRotation = 180f + region.particle.transform.rotation.z;
 
         // 切场景
         yield return new WaitForSeconds(5f);

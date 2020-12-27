@@ -96,11 +96,11 @@ public class UFOManager : MonoBehaviour
             OnUFOCrash();
         }
         // test crash
-        if (Input.touchCount >= 2)
-        {
-            Debug.Log("crash");
-            OnUFOCrash();
-        }
+        //if (Input.touchCount >= 2)
+        //{
+        //    Debug.Log("crash");
+        //    OnUFOCrash();
+        //}
     }
 
     void initMoveTo(Vector3 destination)

@@ -180,9 +180,10 @@ public class RegionControl : MonoBehaviour
             }
         }
 
-        AddTip();
+        
         if(earth.era<Era.AtomicEra)
         {
+            AddTip();
             // 海洋淹没
             Flood();
         }
